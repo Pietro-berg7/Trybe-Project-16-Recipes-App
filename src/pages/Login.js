@@ -9,6 +9,11 @@ function Login() {
     const { email, password } = form;
     return !(/.+@.+\.[A-Za-z]+$/.test(email) && /^(?=.*\d).{7,}$/.test(password));
   };
+
+  const handleLogin = () => {
+    const { email } = form;
+    window.localStorage.setItem('user', JSON.stringify({ email }));
+  };
   return (
     <main className="login-main">
       <section>
@@ -33,6 +38,7 @@ function Login() {
             data-testid="login-submit-btn"
             type="button"
             disabled={ handleFormValidation() }
+            onClick={ handleLogin }
           >
             Enter
 
