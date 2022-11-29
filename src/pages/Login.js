@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 function Login() {
+  const history = useHistory();
   const [form, setForm] = useState({
     email: '',
     password: '',
@@ -13,6 +15,7 @@ function Login() {
   const handleLogin = () => {
     const { email } = form;
     window.localStorage.setItem('user', JSON.stringify({ email }));
+    history.push('/rota');
   };
   return (
     <main className="login-main">
