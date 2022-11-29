@@ -9,3 +9,10 @@ test('Rota da pagina de Login', () => {
   const { pathname } = history.location;
   expect(pathname).toBe('/');
 });
+
+// test('Validação de email e password', () => {
+//   const { history } = renderWithRouter(<App />);
+
+//   const { pathname } = history.location;
+//   expect(pathname).toBe('/');
+// });

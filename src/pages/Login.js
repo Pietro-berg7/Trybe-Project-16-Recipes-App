@@ -7,7 +7,7 @@ function Login() {
   });
   const handleFormValidation = () => {
     const { email, password } = form;
-    return !(/.+@.+\.[A-Za-z]+$/.test(email) && /^(?=.*\d).{6,}$/.test(password));
+    return !(/.+@.+\.[A-Za-z]+$/.test(email) && /^(?=.*\d).{7,}$/.test(password));
   };
   return (
     <main className="login-main">
