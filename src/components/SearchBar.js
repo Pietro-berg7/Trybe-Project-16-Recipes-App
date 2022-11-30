@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { Context } from '../context/useContext';
 
 export default function SearchBar() {
+  const { fetchRecipes } = useContext(Context);
   const [formData, setFormData] = useState({ searchInput: '', searchType: 'ingredient' });
 
   function handleInput({ target: { name, value } }) {
@@ -10,8 +12,18 @@ export default function SearchBar() {
     });
   }
 
+  function searchRecipes() {
+    const { searchType, searchInput } = formData;
+    if (searchInput.length === 0) return; // Mata código caso a busca seja feita vazia
+    if (searchType === 'firstLetter' && searchInput.length > 1) {
+      global.alert('Your search must have only 1 (one) character');
+    }
+    fetchRecipes({ [searchType]: searchInput });
+  }
+
   return (
     <div>
+      <button type="button" data-testid="search-top-btn">GAMBIARRA</button>
       <input
         type="search"
         data-testid="search-input"
@@ -37,9 +49,9 @@ export default function SearchBar() {
           name="searchType"
           id="name-search-radio"
           data-testid="name-search-radio"
-          value="name"
+          value="recipeName"
           onChange={ handleInput }
-          checked={ formData.searchType === 'name' }
+          checked={ formData.searchType === 'recipeName' }
         />
         Name
       </label>
@@ -49,13 +61,19 @@ export default function SearchBar() {
           name="searchType"
           id="first-letter-search-radio"
           data-testid="first-letter-search-radio"
-          value="first-letter"
+          value="firstLetter"
           onChange={ handleInput }
-          checked={ formData.searchType === 'first-letter' }
+          checked={ formData.searchType === 'firstLetter' }
         />
         First letter
       </label>
-      <button type="button" data-testid="exec-search-btn">Search</button>
+      <button
+        type="button"
+        data-testid="exec-search-btn"
+        onClick={ searchRecipes }
+      >
+        Search
+      </button>
     </div>
   );
 }
