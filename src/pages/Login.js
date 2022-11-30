@@ -15,7 +15,7 @@ function Login() {
   const handleLogin = () => {
     const { email } = form;
     window.localStorage.setItem('user', JSON.stringify({ email }));
-    history.push('/rota');
+    history.push('/meals');
   };
   return (
     <main className="login-main">
