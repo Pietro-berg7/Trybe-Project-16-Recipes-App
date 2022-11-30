@@ -8,7 +8,7 @@ export default function RecipeCard(props) {
     <div className="drink-card" data-testid={ `${index}-recipe-card` }>
       <img
         src={ recipeImage }
-        alt="drink thumbnail"
+        alt="recipe thumbnail"
         data-testid={ `${index}-card-img` }
         width="50px"
       />

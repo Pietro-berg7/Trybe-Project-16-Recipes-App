@@ -7,8 +7,8 @@ export default function Provider({ children }) {
   const [recipes, setRecipes] = useState([]);
   const [recipeType, setRecipeType] = useState('meals');
 
-  function setApiUrl() {
-    switch (recipeType) {
+  function setApiUrl(route) {
+    switch (route) {
     case 'meals':
       return 'https://www.themealdb.com/api/json/v1/1/';
     case 'drinks':
@@ -18,18 +18,17 @@ export default function Provider({ children }) {
     }
   }
 
-  async function fetchRecipes({ ingredient, recipeName, firstLetter }) {
+  async function fetchRecipes({ ingredient, recipeName, firstLetter }, route) {
     try {
-      const URL = setApiUrl();
+      const URL = setApiUrl(route);
       let complement = 'search.php?s=';
       if (ingredient) complement = `filter.php?i=${ingredient}`;
       if (recipeName) complement = `search.php?s=${recipeName}`;
       if (firstLetter) complement = `search.php?f=${firstLetter}`;
-      console.log(`${URL}${complement}`);
 
       const response = await fetch(`${URL}${complement}`);
       const recipesAPI = await response.json();
-      setRecipes(recipesAPI[recipeType]);
+      setRecipes(recipesAPI[route]);
     } catch (error) {
       console.error(error);
     }
