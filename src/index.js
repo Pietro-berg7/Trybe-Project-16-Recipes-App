@@ -9,11 +9,11 @@ import Provider from './context/useContext';
 ReactDOM
   .createRoot(document.getElementById('root'))
   .render(
-    <BrowserRouter>
-      <Provider>
+    <Provider>
+      <BrowserRouter>
         <App />
-      </Provider>
-    </BrowserRouter>,
+      </BrowserRouter>
+    </Provider>,
   );
 
 // If you want your app to work offline and load faster, you can change
