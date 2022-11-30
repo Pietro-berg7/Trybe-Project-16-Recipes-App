@@ -8,12 +8,19 @@ const cardLimit = 12;
 
 function Recipes() {
   const history = useHistory();
-  const { recipes, fetchRecipes, setRecipeType } = useContext(Context);
+  const {
+    recipes,
+    fetchRecipes,
+    setRecipeType,
+    fetchCategories,
+    categories,
+  } = useContext(Context);
   const { pathname } = history.location;
 
   useEffect(() => {
     setRecipeType(pathname.replace('/', ''));
     fetchRecipes({}, pathname.replace('/', ''));
+    fetchCategories(pathname.replace('/', ''));
   }, [pathname]);
 
   let pageTitle = 'Meals';
@@ -30,6 +37,19 @@ function Recipes() {
   return (
     <main>
       <h1>{pageTitle}</h1>
+      <div className="categories-container">
+        {
+          categories.map((cat) => (
+            <button
+              key={ `k-${cat}` }
+              type="button"
+              data-testid={ `${cat}-category-filter` }
+            >
+              {cat}
+            </button>
+          ))
+        }
+      </div>
       <section className="recipe-cards-container">
         {
           recipes.slice(0, cardLimit).map((rec, index) => (

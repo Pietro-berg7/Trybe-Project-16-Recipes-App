@@ -6,6 +6,7 @@ export const Context = createContext();
 export default function Provider({ children }) {
   const [recipes, setRecipes] = useState([]);
   const [recipeType, setRecipeType] = useState('meals');
+  const [categories, setCateories] = useState([]);
 
   function setApiUrl(route) {
     switch (route) {
@@ -34,12 +35,29 @@ export default function Provider({ children }) {
     }
   }
 
+  async function fetchCategories(route) {
+    const maximumCategories = 5;
+    try {
+      const type = route === 'drinks' ? 'thecocktaildb' : 'themealdb';
+      const URL = `https://www.${type}.com/api/json/v1/1/list.php?c=list`;
+
+      const response = await fetch(URL);
+      const cat = await response.json();
+      const catList = cat[route].slice(0, maximumCategories).map((c) => c.strCategory);
+      setCateories(catList);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   const values = useMemo(() => ({
     recipes,
     recipeType,
+    categories,
     fetchRecipes,
     setRecipeType,
-  }), [recipes, recipeType]);
+    fetchCategories,
+  }), [recipes, recipeType, categories]);
 
   return (
     <Context.Provider value={ values }>
