@@ -4,6 +4,8 @@ import { screen, waitFor, act } from '@testing-library/react';
 import renderWithRouter from './helpers/renderWithRouter';
 import App from '../App';
 import mockFetch from './mocks/mockFetch';
+import meals from './mocks/meals';
+import drinks from './mocks/drinks';
 
 const pages = {
   meals: '/meals',
@@ -13,6 +15,11 @@ const pages = {
 const testIds = {
   footer: 'footer',
 };
+
+const mealNames = meals.meals.map((m) => ({ strMeal: m.strMeal }));
+const mealCategories = ['Beef', 'Breakfast', 'Chicken', 'Dessert', 'Goat'];
+const drinkNames = drinks.drinks.map((d) => ({ strDrink: d.strDrink }));
+const drinkCategories = ['Ordinary Drink', 'Cocktail', 'Shake', 'Other/Unknown', 'Cocoa'];
 
 describe('Tests the display of the Recipes Page', () => {
   beforeEach(() => {
@@ -31,7 +38,7 @@ describe('Tests the display of the Recipes Page', () => {
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Drinks');
   });
 
-  it('Should test if the recipes displayed are displayed according to the pathname', async () => {
+  it('Should test if the recipes and categories are displayed according to the pathname', async () => {
     jest.spyOn(global, 'fetch').mockImplementation(mockFetch);
 
     const { history } = renderWithRouter(<App />);
@@ -41,10 +48,34 @@ describe('Tests the display of the Recipes Page', () => {
       expect(fetch).toHaveBeenCalledWith('https://www.themealdb.com/api/json/v1/1/search.php?s=');
       expect(fetch).toHaveBeenCalledWith('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
 
-      expect(screen.getByTestId('Beef-category-filter')).toBeInTheDocument();
+      for (let i = 0; i < 12; i += 1) {
+        expect(screen.getByTestId(`${i}-recipe-card`))
+          .toHaveTextContent(mealNames[i].strMeal);
+      }
+
+      for (let c = 0; c < 5; c += 1) {
+        expect(screen.getByTestId(`${mealCategories[c]}-category-filter`))
+          .toBeInTheDocument();
+      }
+    });
+
+    act(() => history.push(pages.drinks));
+
+    await waitFor(() => {
+      expect(fetch).toHaveBeenCalledWith('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+      expect(fetch).toHaveBeenCalledWith('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
+
+      for (let j = 0; j < 12; j += 1) {
+        expect(screen.getByTestId(`${j}-recipe-card`))
+          .toHaveTextContent(drinkNames[j].strDrink);
+      }
+
+      for (let c = 0; c < 5; c += 1) {
+        expect(screen.getByTestId(`${drinkCategories[c]}-category-filter`))
+          .toBeInTheDocument();
+      }
     });
   });
-  it.todo('Should test if the correct categories are displayed according to the pathname');
 });
 
 describe('Tests the functionality of the page', () => {
