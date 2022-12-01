@@ -29,7 +29,6 @@ export default function Provider({ children }) {
 
       const response = await fetch(`${URL}${complement}`);
       const recipesAPI = await response.json();
-      console.log(recipesAPI[route], route);
       setRecipes(recipesAPI[route]);
     } catch (error) {
       console.error(error);
