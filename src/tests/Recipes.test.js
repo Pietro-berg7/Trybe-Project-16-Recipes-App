@@ -1,13 +1,9 @@
 import React from 'react';
 import { screen, waitFor, act } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+// import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helpers/renderWithRouter';
 import App from '../App';
 import mockFetch from './mocks/mockFetch';
-import mealCategories from './mocks/mealCategories';
-import drinkCategories from './mocks/drinkCategories';
-import meals from './mocks/meals';
-import drinks from './mocks/drinks';
 
 const pages = {
   meals: '/meals',
@@ -44,6 +40,7 @@ describe('Tests the display of the Recipes Page', () => {
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith('https://www.themealdb.com/api/json/v1/1/search.php?s=');
       expect(fetch).toHaveBeenCalledWith('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
+
       expect(screen.getByTestId('Beef-category-filter')).toBeInTheDocument();
     });
   });
