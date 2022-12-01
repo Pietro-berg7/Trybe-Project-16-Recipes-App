@@ -1,5 +1,7 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
+import userEvent from '@testing-library/user-event';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import renderWithRouter from './helpers/renderWithRouter';
@@ -52,5 +54,22 @@ describe('Teste Header', () => {
     const { history } = renderWithRouter(<App />);
     await act(async () => { history.push('/favorite-recipes'); });
     await hasHeader('Favorite Recipes', false);
+  });
+  it('Verifica redirecionamento do botão de perfil', async () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push('/meals'));
+    const profile = await screen.findByTestId(prfBtn);
+    userEvent.click(profile);
+    const pageTitle = await screen.findByTestId(titlePg);
+    expect(pageTitle).toBeVisible();
+    expect(pageTitle).toHaveTextContent(/profile/i);
+  });
+  it('Verifica aparição da search bar ao clicar no botão de busca', async () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push('/meals'));
+    const search = await screen.findByTestId(srchBtn);
+    expect(screen.queryByTestId('search-input')).not.toBeInTheDocument();
+    userEvent.click(search);
+    expect(screen.queryByTestId('search-input')).toBeInTheDocument();
   });
 });
