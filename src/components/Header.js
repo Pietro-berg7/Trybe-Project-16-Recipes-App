@@ -8,10 +8,10 @@ function Header() {
   const loc = useLocation();
   const history = useHistory();
   const rota = loc.pathname;
-  const dn = '/done-recipes';
+  const dN = '/done-recipes';
   const fv = '/favorite-recipes';
 
-  const specs = ['/profile', dn, fv];
+  const specs = ['/profile', dN, fv];
 
   let pageName = '';
   let refName = '';
@@ -31,7 +31,7 @@ function Header() {
     break;
   case '/done-recipes':
     pageName = 'Done Recipes';
-    refName = dn;
+    refName = dN;
     break;
   case '/favorite-recipes':
     pageName = 'Favorite Recipes';
