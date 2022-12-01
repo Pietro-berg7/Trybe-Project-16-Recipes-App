@@ -2,10 +2,21 @@ import React from 'react';
 import propTypes from 'prop-types';
 
 export default function RecipeCard(props) {
-  const { index, recipeImage, recipeTitle } = props;
+  const {
+    index,
+    recipeImage,
+    recipeTitle,
+    recipeId,
+    redirectToDetails,
+  } = props;
 
   return (
-    <div className="drink-card" data-testid={ `${index}-recipe-card` }>
+    <button
+      className="drink-card"
+      type="button"
+      data-testid={ `${index}-recipe-card` }
+      onClick={ () => redirectToDetails(recipeId) }
+    >
       <img
         src={ recipeImage }
         alt="recipe thumbnail"
@@ -13,12 +24,21 @@ export default function RecipeCard(props) {
         width="50px"
       />
       <h3 data-testid={ `${index}-card-name` }>{recipeTitle}</h3>
-    </div>
+    </button>
   );
 }
 
 RecipeCard.propTypes = {
   index: propTypes.number.isRequired,
-  recipeImage: propTypes.string.isRequired,
-  recipeTitle: propTypes.string.isRequired,
+  recipeImage: propTypes.string,
+  recipeTitle: propTypes.string,
+  recipeId: propTypes.string,
+  redirectToDetails: propTypes.func,
+};
+
+RecipeCard.defaultProps = {
+  recipeImage: '',
+  recipeTitle: '',
+  recipeId: '',
+  redirectToDetails: () => {},
 };

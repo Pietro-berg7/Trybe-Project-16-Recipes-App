@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Context } from '../context/useContext';
 import RecipeCard from '../components/RecipeCard';
@@ -16,6 +16,7 @@ function Recipes() {
     categories,
   } = useContext(Context);
   const { pathname } = history.location;
+  const [activeFilter, setActiveFilter] = useState('');
 
   useEffect(() => {
     setRecipeType(pathname.replace('/', ''));
@@ -34,6 +35,23 @@ function Recipes() {
     title = 'strDrink';
   }
 
+  const filterByCategories = (cat) => {
+    if (activeFilter === cat) {
+      fetchRecipes({}, pathname.replace('/', ''));
+      setActiveFilter('');
+    } else {
+      fetchRecipes(
+        { ingredient: cat },
+        pathname.replace('/', ''),
+      );
+      setActiveFilter(cat);
+    }
+  };
+
+  const redirectToDetails = (id) => {
+    history.push(`${pathname}/${id}`);
+  };
+
   return (
     <main>
       <h1>{pageTitle}</h1>
@@ -44,11 +62,22 @@ function Recipes() {
               key={ `k-${cat}` }
               type="button"
               data-testid={ `${cat}-category-filter` }
+              onClick={ () => filterByCategories(cat) }
             >
               {cat}
             </button>
           ))
         }
+        <button
+          type="button"
+          data-testid="All-category-filter"
+          onClick={ () => {
+            fetchRecipes({}, pathname.replace('/', ''));
+            setActiveFilter('');
+          } }
+        >
+          All
+        </button>
       </div>
       <section className="recipe-cards-container">
         {
@@ -57,6 +86,8 @@ function Recipes() {
               key={ rec[idKey] }
               recipeImage={ rec[image] }
               recipeTitle={ rec[title] }
+              recipeId={ rec[idKey] }
+              redirectToDetails={ redirectToDetails }
               index={ index }
             />
           ))
