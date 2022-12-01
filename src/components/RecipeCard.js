@@ -19,6 +19,11 @@ export default function RecipeCard(props) {
 
 RecipeCard.propTypes = {
   index: propTypes.number.isRequired,
-  recipeImage: propTypes.string.isRequired,
-  recipeTitle: propTypes.string.isRequired,
+  recipeImage: propTypes.string,
+  recipeTitle: propTypes.string,
+};
+
+RecipeCard.defaultProps = {
+  recipeImage: '',
+  recipeTitle: '',
 };
