@@ -44,11 +44,22 @@ function Recipes() {
               key={ `k-${cat}` }
               type="button"
               data-testid={ `${cat}-category-filter` }
+              onClick={ () => fetchRecipes(
+                { ingredient: cat },
+                pathname.replace('/', ''),
+              ) }
             >
               {cat}
             </button>
           ))
         }
+        <button
+          type="button"
+          data-testid="All-category-filter"
+          onClick={ () => fetchRecipes({}, pathname.replace('/', '')) }
+        >
+          All
+        </button>
       </div>
       <section className="recipe-cards-container">
         {

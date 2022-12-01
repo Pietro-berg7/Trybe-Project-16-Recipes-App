@@ -23,10 +23,11 @@ export default function Provider({ children }) {
     try {
       const URL = setApiUrl(route);
       let complement = 'search.php?s=';
-      if (ingredient) complement = `filter.php?i=${ingredient}`;
+      if (ingredient) complement = `filter.php?c=${ingredient}`;
       if (recipeName) complement = `search.php?s=${recipeName}`;
       if (firstLetter) complement = `search.php?f=${firstLetter}`;
 
+      console.log(`${URL}${complement}`);
       const response = await fetch(`${URL}${complement}`);
       const recipesAPI = await response.json();
       setRecipes(recipesAPI[route]);
