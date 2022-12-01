@@ -27,7 +27,6 @@ export default function Provider({ children }) {
       if (recipeName) complement = `search.php?s=${recipeName}`;
       if (firstLetter) complement = `search.php?f=${firstLetter}`;
 
-      console.log(`${URL}${complement}`);
       const response = await fetch(`${URL}${complement}`);
       const recipesAPI = await response.json();
       setRecipes(recipesAPI[route]);

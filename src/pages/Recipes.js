@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Context } from '../context/useContext';
 import RecipeCard from '../components/RecipeCard';
@@ -16,6 +16,7 @@ function Recipes() {
     categories,
   } = useContext(Context);
   const { pathname } = history.location;
+  const [activeFilter, setActiveFilter] = useState('');
 
   useEffect(() => {
     setRecipeType(pathname.replace('/', ''));
@@ -34,6 +35,19 @@ function Recipes() {
     title = 'strDrink';
   }
 
+  const filterByCategories = (cat) => {
+    if (activeFilter === cat) {
+      fetchRecipes({}, pathname.replace('/', ''));
+      setActiveFilter('');
+    } else {
+      fetchRecipes(
+        { ingredient: cat },
+        pathname.replace('/', ''),
+      );
+      setActiveFilter(cat);
+    }
+  };
+
   return (
     <main>
       <h1>{pageTitle}</h1>
@@ -44,10 +58,7 @@ function Recipes() {
               key={ `k-${cat}` }
               type="button"
               data-testid={ `${cat}-category-filter` }
-              onClick={ () => fetchRecipes(
-                { ingredient: cat },
-                pathname.replace('/', ''),
-              ) }
+              onClick={ () => filterByCategories(cat) }
             >
               {cat}
             </button>
@@ -56,7 +67,10 @@ function Recipes() {
         <button
           type="button"
           data-testid="All-category-filter"
-          onClick={ () => fetchRecipes({}, pathname.replace('/', '')) }
+          onClick={ () => {
+            fetchRecipes({}, pathname.replace('/', ''));
+            setActiveFilter('');
+          } }
         >
           All
         </button>
