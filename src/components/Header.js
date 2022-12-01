@@ -1,69 +1,81 @@
-import React, { useContext, useState } from 'react';
-import { useLocation, Redirect } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import SearchBar from './SearchBar';
+
+const headerRoutes = [
+  {
+    name: 'meals',
+    pageName: 'Meals',
+    profile: true,
+    search: true,
+  },
+  {
+    name: 'drinks',
+    pageName: 'Drinks',
+    profile: true,
+    search: true,
+  },
+  {
+    name: 'profile',
+    pageName: 'Profile',
+    profile: true,
+    search: false,
+  },
+  {
+    name: 'done-recipes',
+    pageName: 'Done Recipes',
+    profile: true,
+    search: false,
+  },
+  {
+    name: 'favorite-recipes',
+    pageName: 'Favorite Recipes',
+    profile: true,
+    search: false,
+  },
+];
 
 function Header() {
-  const [disponivel, setDisponivel] = useState(false);
-  const { search, setSearch } = useContext(useContext);
-  const loc = useLocation();
-  const rota = loc.pathname;
-  const notUsed = ['/profile', '/done-recipes', '/fvorite-recipes'];
-  let pageName = '';
+  const [available, setAvailable] = useState(false);
+  const location = useLocation();
+  const history = useHistory();
+  const { pathname } = location;
+  const rota = headerRoutes.find((route) => route.name === pathname.replace('/', ''));
 
-  switch (rota) {
-  case '/meals':
-    pageName = 'Meals';
-    break;
-  case '/drinks':
-    pageName = 'Drinks';
-    break;
-  case '/profile':
-    pageName = 'Profile';
-    break;
-  case '/done-recipes':
-    pageName = 'Done Recipes';
-    break;
-  case '/favorite=recipes':
-    pageName = 'Favorite Recipes';
-    break;
-  default:
-    return null;
-  }
   return (
-    <section>
-      {disponivel && <Redirect to="/profile" />}
-      <div className="title-header">
-        <button type="button" onClick={ () => setDisponivel(true) }>
-          <img
-            src={ profileIcon }
-            alt="Profile icon"
-            data-testid="profile-top-btn"
-          />
-        </button>
-        <button type="button" onClick={ () => setSearch(search) }>
-          <img
-            src={ searchIcon }
-            alt="Search icon"
-            data-testid="search-top-btn"
-          />
-        </button>
-        <h1>
-          { pageName }
-        </h1>
-      </div>
-      {notUsed.includes(pageName) && (
+    <header className="header">
+      <h1 data-testid="page-title">
+        { rota.pageName }
+      </h1>
+      { rota.profile && (
         <button
+          data-testid="profile-top-btn"
           type="button"
           src={ profileIcon }
-          alt="Profile icon"
-          data-testid="search-top-btn"
-          onClick={ () => setSearch(!search) }
+          onClick={ () => history.push('/profile') }
         >
-          <span />
+          <img src={ profileIcon } alt="profile" />
         </button>
       )}
-    </section>
+      { rota.search && (
+        <>
+          <button
+            type="button"
+            data-testid="search-top-btn"
+            src={ searchIcon }
+            onClick={ () => setAvailable(!available) }
+          >
+            <img
+              src={ searchIcon }
+              alt="search"
+            />
+          </button>
+          {available && <SearchBar />}
+        </>
+      )}
+    </header>
   );
 }
 

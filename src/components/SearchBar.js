@@ -1,8 +1,10 @@
 import React, { useState, useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Context } from '../context/useContext';
 
 export default function SearchBar() {
   const { fetchRecipes } = useContext(Context);
+  const { pathname } = useLocation();
   const [formData, setFormData] = useState({ searchInput: '', searchType: 'ingredient' });
 
   function handleInput({ target: { name, value } }) {
@@ -18,12 +20,11 @@ export default function SearchBar() {
     if (searchType === 'firstLetter' && searchInput.length > 1) {
       global.alert('Your search must have only 1 (one) character');
     }
-    fetchRecipes({ [searchType]: searchInput });
+    fetchRecipes({ [searchType]: searchInput }, pathname.replace('/', ''));
   }
 
   return (
     <div>
-      <button type="button" data-testid="search-top-btn">GAMBIARRA</button>
       <input
         type="search"
         data-testid="search-input"
