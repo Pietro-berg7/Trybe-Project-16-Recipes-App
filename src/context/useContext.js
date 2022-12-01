@@ -6,7 +6,7 @@ export const Context = createContext();
 export default function Provider({ children }) {
   const [recipes, setRecipes] = useState([]);
   const [recipeType, setRecipeType] = useState('meals');
-  const [categories, setCateories] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   function setApiUrl(route) {
     switch (route) {
@@ -44,7 +44,7 @@ export default function Provider({ children }) {
       const response = await fetch(URL);
       const cat = await response.json();
       const catList = cat[route].slice(0, maximumCategories).map((c) => c.strCategory);
-      setCateories(catList);
+      setCategories(catList);
     } catch (e) {
       console.error(e);
     }

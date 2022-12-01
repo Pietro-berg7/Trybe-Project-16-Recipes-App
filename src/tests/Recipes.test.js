@@ -1,12 +1,47 @@
 import React from 'react';
 import { screen, waitFor, act } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+// import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helpers/renderWithRouter';
 import App from '../App';
+import fetch from './mocks/fetch';
+
+const pages = {
+  meals: '/meals',
+  drinks: '/drinks',
+};
+
+const testIds = {
+  footer: 'footer',
+};
 
 describe('Tests the display of the Recipes Page', () => {
-  it.todo('Should test if the correct elements are displayed');
-  it.todo('Should test if the recipes displayed are displayed according to the pathname');
+  beforeEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  it('Should test if the correct elements are displayed', () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push('/meals'));
+
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Meals');
+    expect(screen.getByTestId(testIds.footer)).toBeInTheDocument();
+
+    act(() => history.push('/drinks'));
+
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Drinks');
+  });
+
+  it.skip('Should test if the recipes displayed are displayed according to the pathname', async () => {
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockImplementation(fetch);
+
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push(pages.meals));
+
+    await waitFor(() => {
+      expect(screen.getByTestId('Beef-category-filter')).toBeInTheDocument();
+    });
+  });
   it.todo('Should test if the correct categories are displayed according to the pathname');
 });
 
