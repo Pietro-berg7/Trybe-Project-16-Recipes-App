@@ -48,6 +48,10 @@ function Recipes() {
     }
   };
 
+  const redirectToDetails = (id) => {
+    history.push(`${pathname}/${id}`);
+  };
+
   return (
     <main>
       <h1>{pageTitle}</h1>
@@ -82,6 +86,8 @@ function Recipes() {
               key={ rec[idKey] }
               recipeImage={ rec[image] }
               recipeTitle={ rec[title] }
+              recipeId={ rec[idKey] }
+              redirectToDetails={ redirectToDetails }
               index={ index }
             />
           ))
