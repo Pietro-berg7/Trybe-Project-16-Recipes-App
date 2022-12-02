@@ -7,7 +7,6 @@ export default function Provider({ children }) {
   const [recipes, setRecipes] = useState([]);
   const [recipeType, setRecipeType] = useState('meals');
   const [categories, setCategories] = useState([]);
-  const [recipeId, setRecipeId] = useState('');
 
   function setApiUrl(route) {
     switch (route) {
@@ -59,7 +58,10 @@ export default function Provider({ children }) {
 
       const response = await fetch(URL);
       const data = await response.json();
-      return data;
+      if (route.includes('drinks')) {
+        return data.drinks[0];
+      }
+      return data.meals[0];
     } catch (e) {
       console.error(e);
     }
@@ -73,7 +75,6 @@ export default function Provider({ children }) {
     setRecipeType,
     fetchCategories,
     fetchRecipeId,
-    setRecipeId,
   }), [recipes, recipeType, categories]);
 
   return (

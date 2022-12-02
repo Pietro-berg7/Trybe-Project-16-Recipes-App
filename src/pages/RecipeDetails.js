@@ -15,10 +15,9 @@ export default function Recipe() {
     };
     fetchRecipeById();
   }, [setRecipe, fetchRecipeId, pathname]);
+  console.log(recipe);
 
   return (
-    <main>
-      q
-    </main>
+    <main />
   );
 }
