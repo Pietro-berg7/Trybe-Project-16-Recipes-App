@@ -4,7 +4,7 @@ import './App.css';
 import Login from './pages/Login';
 // import Meals from './pages/Meals';
 // import Drinks from './pages/Drinks';
-import Recipe from './pages/Recipe';
+import RecipeDetails from './pages/RecipeDetails';
 import Recipes from './pages/Recipes';
 import RecipeInProgress from './pages/RecipeInProgress';
 import Profile from './pages/Profile';
@@ -16,8 +16,8 @@ function App() {
   return (
     <Switch>
       <Route exact path="/" component={ Login } />
-      <Route exact path="/meals/:id" component={ Recipe } />
-      <Route exact path="/drinks/:id" component={ Recipe } />
+      <Route exact path="/meals/:id" component={ RecipeDetails } />
+      <Route exact path="/drinks/:id" component={ RecipeDetails } />
       <Route path="/meals/:id/in-progress" component={ RecipeInProgress } />
       <Route path="/drinks/:id/in-progress" component={ RecipeInProgress } />
       <Route exact path="/meals" component={ Recipes } />

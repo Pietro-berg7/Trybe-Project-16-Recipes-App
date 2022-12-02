@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import propTypes from 'prop-types';
+import { Context } from '../context/useContext';
 
 export default function RecipeCard(props) {
   const {
@@ -10,12 +11,17 @@ export default function RecipeCard(props) {
     redirectToDetails,
   } = props;
 
+  const { setRecipeId } = useContext(Context);
+
   return (
     <button
       className="drink-card"
       type="button"
       data-testid={ `${index}-recipe-card` }
-      onClick={ () => redirectToDetails(recipeId) }
+      onClick={ () => {
+        redirectToDetails(recipeId);
+        setRecipeId(recipeId);
+      } }
     >
       <img
         src={ recipeImage }

@@ -7,6 +7,7 @@ export default function Provider({ children }) {
   const [recipes, setRecipes] = useState([]);
   const [recipeType, setRecipeType] = useState('meals');
   const [categories, setCategories] = useState([]);
+  const [recipeId, setRecipeId] = useState('');
 
   function setApiUrl(route) {
     switch (route) {
@@ -50,6 +51,20 @@ export default function Provider({ children }) {
     }
   }
 
+  async function fetchRecipeId(route) {
+    try {
+      const type = route.includes('drinks') ? 'thecocktaildb' : 'themealdb';
+      const id = route.split('/').pop();
+      const URL = `https://www.${type}.com/api/json/v1/1/lookup.php?i=${id}`;
+
+      const response = await fetch(URL);
+      const data = await response.json();
+      return data;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   const values = useMemo(() => ({
     recipes,
     recipeType,
@@ -57,6 +72,8 @@ export default function Provider({ children }) {
     fetchRecipes,
     setRecipeType,
     fetchCategories,
+    fetchRecipeId,
+    setRecipeId,
   }), [recipes, recipeType, categories]);
 
   return (
