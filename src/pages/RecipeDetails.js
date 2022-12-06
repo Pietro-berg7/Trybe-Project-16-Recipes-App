@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Context } from '../context/useContext';
 
-import '../css/Recipe.css';
+import '../css/CardRec.css';
 
 import DrinksCardRec from '../components/DrinksCardRec';
 import MealssCardRec from '../components/MealsCardRec';
