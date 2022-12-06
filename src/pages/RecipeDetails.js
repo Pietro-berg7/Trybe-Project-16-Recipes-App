@@ -26,24 +26,40 @@ export default function Recipe() {
           alt=""
           width="100%"
         />
-        <h1 data-testid="recipe-title">{ recipe.strMeal || recipe.strGlass }</h1>
+        <h1 data-testid="recipe-title">{ recipe.strMeal || recipe.strDrink }</h1>
         <h3 data-testid="recipe-category">{ recipe.strCategory }</h3>
-        { recipe.strAlcoholic && (<p>{ recipe.strAlcoholic }</p>)}
+        { recipe.strAlcoholic && (
+          <p data-testid="recipe-category">{ recipe.strAlcoholic }</p>
+        )}
         <h2>Ingredients</h2>
         {
           Object.entries(recipe)
-            .filter((ingredient) => (ingredient[0].includes('Ingredient')))
-            .filter((ingredient) => (ingredient[1] !== ''))
-            .map((ingredient) => (
-              <li
-                data-testid={ `${ingredient[0]}-ingredient-name-and-measure` }
-                key={ ingredient[0] }
+            .filter((element) => (element[0].includes('Ingredient')))
+            .filter((element) => (element[1] !== ''))
+            .map((ingredient, index) => (
+              <p
+                data-testid={ `${index}-ingredient-name-and-measure` }
+                key={ index }
               >
                 {ingredient[1]}
-              </li>
+              </p>
             ))
         }
-
+        <h2>Measures</h2>
+        {
+          Object.entries(recipe)
+            .filter((element) => (element[0].includes('Measure')))
+            .filter((element) => (element[1] !== ''))
+            .map((measure, index) => (
+              <p
+                data-testid={ `${index}-ingredient-name-and-measure` }
+                key={ index }
+              >
+                {measure[1]}
+              </p>
+            ))
+        }
+        <h2>Instructions</h2>
         <p data-testid="instructions">{ recipe.strInstructions }</p>
         {
           recipe.strYoutube
