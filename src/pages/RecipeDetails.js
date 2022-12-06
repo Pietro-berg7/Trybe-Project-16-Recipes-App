@@ -2,6 +2,11 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Context } from '../context/useContext';
 
+import '../css/Recipe.css';
+
+import DrinksCardRec from '../components/DrinksCardRec';
+import MealssCardRec from '../components/MealsCardRec';
+
 export default function Recipe() {
   const history = useHistory();
   const { pathname } = history.location;
@@ -86,6 +91,9 @@ export default function Recipe() {
               />
             )
         }
+        { algo
+          ? (<DrinksCardRec data={ dataRecomendation.drinks } />)
+          : (<MealssCardRec data={ dataRecomendation.meals } />)}
       </main>
     )
   );

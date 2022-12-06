@@ -1,0 +1,22 @@
+.containter {
+  display: block;
+  overflow: hidden;
+  width: 100%;
+}
+
+.carousel {
+  background: white;
+  display: block;
+  height: 200px;
+  overflow-x: scroll;
+  white-space: nowrap;
+}
+
+.item {
+  background-size: cover;
+  display: inline-block;
+  height: 150px;
+  margin: 0 10px;
+  position: relative;
+  width: 150px;
+}
