@@ -6,6 +6,8 @@ export default function DrinksCardRec({ drinks }) {
   if (!drinks) return null;
   drinks.length = 6;
 
+  console.log(drinks);
+
   return (
     <div className="containter">
       <div className="carousel">
