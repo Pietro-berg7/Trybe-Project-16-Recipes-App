@@ -15,7 +15,6 @@ export default function Recipe() {
     };
     fetchRecipeById();
   }, [setRecipe, fetchRecipeId, pathname]);
-  console.log(recipe);
 
   return (
     recipe && (
@@ -35,7 +34,6 @@ export default function Recipe() {
         {
           Object.entries(recipe)
             .filter((element) => (element[0].includes('Ingredient')))
-            .filter((element) => (element[1] !== ''))
             .map((ingredient, index) => (
               <p
                 data-testid={ `${index}-ingredient-name-and-measure` }
@@ -49,7 +47,6 @@ export default function Recipe() {
         {
           Object.entries(recipe)
             .filter((element) => (element[0].includes('Measure')))
-            .filter((element) => (element[1] !== ''))
             .map((measure, index) => (
               <p
                 data-testid={ `${index}-ingredient-name-and-measure` }
@@ -62,29 +59,17 @@ export default function Recipe() {
         <h2>Instructions</h2>
         <p data-testid="instructions">{ recipe.strInstructions }</p>
         {
-          recipe.strYoutube
-            ? recipe.strYoutube !== null && (
-              <iframe
-                title="video"
-                data-testid="video"
-                width="100%"
-                src={ `https://www.youtube.com/embed/${recipe.strYoutube.split('=')[1]}` }
-                frameBorder="0"
-                allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            )
-            : recipe.strVideo !== null && (
-              <iframe
-                title="video"
-                data-testid="video"
-                width="100%"
-                src={ `https://www.youtube.com/embed/${recipe.strVideo.split('=')[1]}` }
-                frameBorder="0"
-                allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            )
+          recipe.strYoutube && (
+            <iframe
+              title="video"
+              data-testid="video"
+              width="100%"
+              src={ `https://www.youtube.com/embed/${recipe.strYoutube.split('=')[1]}` }
+              frameBorder="0"
+              allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          )
         }
       </main>
     )
