@@ -17,6 +17,11 @@ export default function Profile() {
     history.push(page);
   };
 
+  const logout = () => {
+    localStorage.clear();
+    history.push('/');
+  };
+
   return (
     <div>
       <Header />
@@ -40,7 +45,7 @@ export default function Profile() {
           <button
             data-testid="profile-logout-btn"
             type="button"
-            onClick={ () => {} }
+            onClick={ () => logout() }
           >
             Logout
           </button>
