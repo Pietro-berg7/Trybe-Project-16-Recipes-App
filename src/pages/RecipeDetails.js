@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Context } from '../context/useContext';
 
+import Recommendations from '../components/Recommendations';
+
 export default function Recipe() {
   const history = useHistory();
   const { pathname } = history.location;
@@ -87,6 +89,7 @@ export default function Recipe() {
               </button>
             )
         }
+        <Recommendations />
       </main>
     )
   );
