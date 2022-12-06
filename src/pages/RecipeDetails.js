@@ -15,6 +15,14 @@ export default function Recipe() {
     };
     fetchRecipeById();
   }, [setRecipe, fetchRecipeId, pathname]);
+  console.log(recipe);
+
+  useEffect(() => {
+    window.localStorage.setItem('doneRecipes', JSON.stringify([]));
+  }, []);
+
+  const done = JSON.parse(localStorage.getItem('doneRecipes'));
+  console.log(done);
 
   return (
     recipe && (
@@ -31,45 +39,53 @@ export default function Recipe() {
           <p data-testid="recipe-category">{ recipe.strAlcoholic }</p>
         )}
         <h2>Ingredients</h2>
-        {
-          Object.entries(recipe)
-            .filter((element) => (element[0].includes('Ingredient')))
-            .map((ingredient, index) => (
-              <p
-                data-testid={ `${index}-ingredient-name-and-measure` }
-                key={ index }
-              >
-                {ingredient[1]}
-              </p>
-            ))
-        }
+        { Object.entries(recipe)
+          .filter((element) => (element[0].includes('Ingredient')))
+          .map((ingredient, index) => (
+            <p
+              data-testid={ `${index}-ingredient-name-and-measure` }
+              key={ index }
+            >
+              {ingredient[1]}
+            </p>
+          ))}
         <h2>Measures</h2>
-        {
-          Object.entries(recipe)
-            .filter((element) => (element[0].includes('Measure')))
-            .map((measure, index) => (
-              <p
-                data-testid={ `${index}-ingredient-name-and-measure` }
-                key={ index }
-              >
-                {measure[1]}
-              </p>
-            ))
-        }
+        { Object.entries(recipe)
+          .filter((element) => (element[0].includes('Measure')))
+          .map((measure, index) => (
+            <p
+              data-testid={ `${index}-ingredient-name-and-measure` }
+              key={ index }
+            >
+              {measure[1]}
+            </p>
+          ))}
         <h2>Instructions</h2>
         <p data-testid="instructions">{ recipe.strInstructions }</p>
+        {recipe.strYoutube && (
+          <iframe
+            title="video"
+            data-testid="video"
+            width="100%"
+            src={ `https://www.youtube.com/embed/${recipe.strYoutube.split('=')[1]}` }
+            frameBorder="0"
+            allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        )}
         {
-          recipe.strYoutube && (
-            <iframe
-              title="video"
-              data-testid="video"
-              width="100%"
-              src={ `https://www.youtube.com/embed/${recipe.strYoutube.split('=')[1]}` }
-              frameBorder="0"
-              allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          )
+          done
+            .includes(recipe.idMeal || recipe.idDrink)
+            ? null
+            : (
+              <button
+                data-testid="start-recipe-btn"
+                type="button"
+                style={ { position: 'fixed', bottom: '0px' } }
+              >
+                Start Recipe
+              </button>
+            )
         }
       </main>
     )
