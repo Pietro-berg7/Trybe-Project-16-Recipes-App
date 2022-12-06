@@ -67,6 +67,24 @@ export default function Provider({ children }) {
     }
   }
 
+  async function fetchRecipeRecommendations(route) {
+    try {
+      const SIX = 6;
+      const type = route.includes('meals') ? 'thecocktaildb' : 'themealdb';
+      const URL = `https://www.${type}.com/api/json/v1/1/search.php?s=`;
+
+      const response = await fetch(URL);
+      const data = await response.json();
+
+      if (route.includes('drinks')) {
+        return data.meals.slice(0, SIX);
+      }
+      return data.drinks.slice(0, SIX);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   const values = useMemo(() => ({
     recipes,
     recipeType,
@@ -75,6 +93,7 @@ export default function Provider({ children }) {
     setRecipeType,
     fetchCategories,
     fetchRecipeId,
+    fetchRecipeRecommendations,
   }), [recipes, recipeType, categories]);
 
   return (

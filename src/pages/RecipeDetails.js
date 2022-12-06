@@ -2,18 +2,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Context } from '../context/useContext';
 
-import '../css/CardRec.css';
-
-import DrinksCardRec from '../components/DrinksCardRec';
-import MealssCardRec from '../components/MealsCardRec';
+import Recommendations from '../components/Recommendations';
 
 export default function Recipe() {
   const history = useHistory();
   const { pathname } = history.location;
   const { fetchRecipeId } = useContext(Context);
   const [recipe, setRecipe] = useState();
-  const [dataRecomendation, setDataRecomendation] = useState([]);
-  const { location } = useHistory();
 
   useEffect(() => {
     const fetchRecipeById = async () => {
@@ -22,22 +17,6 @@ export default function Recipe() {
     };
     fetchRecipeById();
   }, [setRecipe, fetchRecipeId, pathname]);
-
-  useEffect(() => {
-    const recomendations = async () => {
-      if (location.pathname.includes('meal')) {
-        const request = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
-        const json = await request.json();
-        setDataRecomendation(json);
-      }
-      if (location.pathname.includes('drink')) {
-        const request = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
-        const json = await request.json();
-        setDataRecomendation(json);
-      }
-    };
-    recomendations();
-  }, [location]);
 
   return (
     recipe && (
@@ -108,12 +87,7 @@ export default function Recipe() {
               />
             )
         }
-        <div>
-          { location.pathname.includes('meal')
-            ? (<DrinksCardRec data={ dataRecomendation.drinks } />)
-            : (<MealssCardRec data={ dataRecomendation.meals } />)}
-        </div>
-
+        <Recommendations />
       </main>
     )
   );
