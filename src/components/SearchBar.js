@@ -16,9 +16,9 @@ export default function SearchBar() {
 
   function searchRecipes() {
     const { searchType, searchInput } = formData;
-    if (searchInput.length === 0) return; // Mata código caso a busca seja feita vazia
     if (searchType === 'firstLetter' && searchInput.length > 1) {
       global.alert('Your search must have only 1 (one) character');
+      return;
     }
     fetchRecipes({ [searchType]: searchInput }, pathname.replace('/', ''));
   }

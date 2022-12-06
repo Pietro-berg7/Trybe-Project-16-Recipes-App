@@ -1,9 +1,11 @@
 import React, { createContext, useMemo, useState } from 'react';
 import { node } from 'prop-types';
+import { useHistory } from 'react-router-dom';
 
 export const Context = createContext();
 
 export default function Provider({ children }) {
+  const history = useHistory();
   const [recipes, setRecipes] = useState([]);
   const [recipeType, setRecipeType] = useState('meals');
   const [categories, setCategories] = useState([]);
@@ -23,13 +25,32 @@ export default function Provider({ children }) {
     try {
       const URL = setApiUrl(route);
       let complement = 'search.php?s=';
-      if (ingredient) complement = `filter.php?c=${ingredient}`;
+      if (ingredient) complement = `filter.php?i=${ingredient}`;
       if (recipeName) complement = `search.php?s=${recipeName}`;
       if (firstLetter) complement = `search.php?f=${firstLetter}`;
 
       const response = await fetch(`${URL}${complement}`);
       const recipesAPI = await response.json();
+      if (!recipesAPI[route]) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+        return;
+      }
       setRecipes(recipesAPI[route]);
+      if (recipesAPI[route].length === 1) {
+        const id = route === 'meals' ? 'idMeal' : 'idDrink';
+        history.push(`/${route}/${recipesAPI[route][0][id]}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function fetchRecipesCat(category, route) {
+    try {
+      const URL = `${setApiUrl(route)}filter.php?c=${category}`;
+      const response = await fetch(URL);
+      const recipesCat = await response.json();
+      setRecipes(recipesCat[route]);
     } catch (error) {
       console.error(error);
     }
@@ -57,6 +78,7 @@ export default function Provider({ children }) {
     fetchRecipes,
     setRecipeType,
     fetchCategories,
+    fetchRecipesCat,
   }), [recipes, recipeType, categories]);
 
   return (

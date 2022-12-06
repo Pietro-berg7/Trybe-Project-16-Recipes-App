@@ -15,6 +15,7 @@ function Recipes() {
     setRecipeType,
     fetchCategories,
     categories,
+    fetchRecipesCat,
   } = useContext(Context);
   const { pathname } = history.location;
   const [activeFilter, setActiveFilter] = useState('');
@@ -25,12 +26,10 @@ function Recipes() {
     fetchCategories(pathname.replace('/', ''));
   }, [pathname]);
 
-  // let pageTitle = 'Meals';
   let idKey = 'idMeal';
   let image = 'strMealThumb';
   let title = 'strMeal';
   if (pathname === '/drinks') {
-    // pageTitle = 'Drinks';
     idKey = 'idDrink';
     image = 'strDrinkThumb';
     title = 'strDrink';
@@ -41,8 +40,8 @@ function Recipes() {
       fetchRecipes({}, pathname.replace('/', ''));
       setActiveFilter('');
     } else {
-      fetchRecipes(
-        { ingredient: cat },
+      fetchRecipesCat(
+        cat,
         pathname.replace('/', ''),
       );
       setActiveFilter(cat);
@@ -56,7 +55,6 @@ function Recipes() {
   return (
     <main>
       <Header />
-      {/* <h1>{pageTitle}</h1> */}
       <div className="categories-container">
         {
           categories.map((cat) => (
