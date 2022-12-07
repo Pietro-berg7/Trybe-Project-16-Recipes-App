@@ -2,10 +2,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Context } from '../context/useContext';
-
 import Recommendations from '../components/Recommendations';
 import shareIcon from '../images/shareIcon.svg';
-import addFavorite from './helpers/addFavorite';
+import ButtonFavorite from '../components/ButtonFavorite';
 
 const copy = require('clipboard-copy');
 
@@ -24,12 +23,11 @@ export default function Recipe() {
       setRecipe(data);
     };
     fetchRecipeById();
-  }, [setRecipe, fetchRecipeId, pathname]);
-  console.log(recipe);
+  }, [setRecipe, fetchRecipeId, pathname, recipe]);
 
   useEffect(() => {
-    const prev = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    if (prev === null) {
+    const prevFavorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (prevFavorites === null) {
       window.localStorage.setItem('favoriteRecipes', JSON.stringify([]));
     }
     window.localStorage.setItem('doneRecipes', JSON.stringify([]));
@@ -42,14 +40,6 @@ export default function Recipe() {
   const handleShare = () => {
     copy(`http://localhost:3000${history.location.pathname}`);
     setShareRecipe(true);
-  };
-
-  const handleFavorite = () => {
-    const prev = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    localStorage.setItem('favoriteRecipes', JSON.stringify([
-      ...prev,
-      addFavorite(recipe, pathname),
-    ]));
   };
 
   return (
@@ -126,13 +116,7 @@ export default function Recipe() {
           <img src={ shareIcon } alt="shareIcon" />
         </button>
         {shareRecipe && <p>Link copied!</p>}
-        <button
-          data-testid="favorite-btn"
-          type="button"
-          onClick={ handleFavorite }
-        >
-          Favorite
-        </button>
+        <ButtonFavorite pathname={ pathname } recipe={ recipe } />
         <Recommendations />
       </main>
     )
