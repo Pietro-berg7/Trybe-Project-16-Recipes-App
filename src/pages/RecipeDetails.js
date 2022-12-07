@@ -1,9 +1,11 @@
+/* eslint-disable complexity */
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Context } from '../context/useContext';
 
 import Recommendations from '../components/Recommendations';
 import shareIcon from '../images/shareIcon.svg';
+import addFavorite from './helpers/addFavorite';
 
 const copy = require('clipboard-copy');
 
@@ -14,6 +16,7 @@ export default function Recipe() {
   const [recipe, setRecipe] = useState();
   const [startRecipeBtn] = useState(false);
   const [shareRecipe, setShareRecipe] = useState(false);
+  const done = JSON.parse(localStorage.getItem('doneRecipes'));
 
   useEffect(() => {
     const fetchRecipeById = async () => {
@@ -25,10 +28,12 @@ export default function Recipe() {
   console.log(recipe);
 
   useEffect(() => {
+    const prev = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (prev === null) {
+      window.localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+    }
     window.localStorage.setItem('doneRecipes', JSON.stringify([]));
   }, []);
-
-  const done = JSON.parse(localStorage.getItem('doneRecipes'));
 
   const handleStartRecipe = () => {
     history.push(`${history.location.pathname}/in-progress`);
@@ -37,6 +42,14 @@ export default function Recipe() {
   const handleShare = () => {
     copy(`http://localhost:3000${history.location.pathname}`);
     setShareRecipe(true);
+  };
+
+  const handleFavorite = () => {
+    const prev = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    localStorage.setItem('favoriteRecipes', JSON.stringify([
+      ...prev,
+      addFavorite(recipe, pathname),
+    ]));
   };
 
   return (
@@ -116,10 +129,10 @@ export default function Recipe() {
         <button
           data-testid="favorite-btn"
           type="button"
+          onClick={ handleFavorite }
         >
           Favorite
         </button>
-
         <Recommendations />
       </main>
     )

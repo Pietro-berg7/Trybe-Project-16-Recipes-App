@@ -15,7 +15,6 @@ function Login() {
   const handleLogin = () => {
     const { email } = form;
     window.localStorage.setItem('user', JSON.stringify({ email }));
-    window.localStorage.setItem('doneRecipes', JSON.stringify([]));
     history.push('/meals');
   };
   return (
