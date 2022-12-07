@@ -18,6 +18,7 @@ export default function RecipeInProgress(props) {
   const recType = url.includes('drinks') ? 'drinks' : 'meals';
   const [recipe, setRecipe] = useState({});
   const [ingredients, setIngredients] = useState([]);
+  const [usedIngredients, setUsedIngredients] = useState([]);
 
   const saveProgress = (ingIndex, checked) => {
     const stored = JSON.parse(localStorage.getItem('inProgressRecipes'));
@@ -34,6 +35,7 @@ export default function RecipeInProgress(props) {
         [id]: [...ingProgress],
       },
     };
+    setUsedIngredients(ingProgress);
     localStorage.setItem('inProgressRecipes', JSON.stringify(updatedStorage));
   };
 
@@ -60,7 +62,12 @@ export default function RecipeInProgress(props) {
 
   useEffect(() => {
     setIngredients(adjustIngredients(recipe));
-  }, [recipe]);
+  }, [recipe, usedIngredients]);
+
+  // useEffect(() => {
+  //   const usedIng = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  //   setUsedIngredients(usedIng[recType][id] || []);
+  // }, [recType, id]);
 
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem('inProgressRecipes'));
@@ -69,6 +76,7 @@ export default function RecipeInProgress(props) {
       if (stored[recType] !== undefined) {
         if (stored[recType][id] !== undefined) {
           newStoreObj = stored;
+          setUsedIngredients(stored[recType][id]);
         } else {
           newStoreObj = {
             ...stored,
@@ -140,11 +148,16 @@ export default function RecipeInProgress(props) {
               <label
                 htmlFor={ ing }
                 data-testid={ `${index}-ingredient-step` }
+                style={
+                  usedIngredients.includes(index.toString())
+                    ? { textDecoration: 'line-through solid rgb(0, 0, 0)' } : {}
+                }
               >
                 <input
                   type="checkbox"
                   id={ ing }
                   name={ index }
+                  checked={ usedIngredients.includes(index.toString()) }
                   onChange={ (e) => saveProgress(e.target.name, e.target.checked) }
                 />
                 {ing}
