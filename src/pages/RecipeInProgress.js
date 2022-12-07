@@ -64,11 +64,6 @@ export default function RecipeInProgress(props) {
     setIngredients(adjustIngredients(recipe));
   }, [recipe, usedIngredients]);
 
-  // useEffect(() => {
-  //   const usedIng = JSON.parse(localStorage.getItem('inProgressRecipes'));
-  //   setUsedIngredients(usedIng[recType][id] || []);
-  // }, [recType, id]);
-
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem('inProgressRecipes'));
     if (stored !== null) {
@@ -169,7 +164,9 @@ export default function RecipeInProgress(props) {
       <button
         data-testid="finish-recipe-btn"
         type="button"
+        disabled={ ingredients.length !== usedIngredients.length }
         onClick={ () => {} }
+        style={ { position: 'fixed', bottom: '0px' } }
       >
         Finalizar Receita
       </button>
