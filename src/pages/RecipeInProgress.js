@@ -39,6 +39,25 @@ export default function RecipeInProgress(props) {
     localStorage.setItem('inProgressRecipes', JSON.stringify(updatedStorage));
   };
 
+  const finishRecipe = () => {
+    const date = new Date();
+    let prevStorage = JSON.parse(localStorage.getItem('doneRecipes'));
+    if (prevStorage === null) prevStorage = [];
+    const dnRec = {
+      id: id.toString(),
+      nationality: recipe.strArea || '',
+      name: recipe.strMeal || recipe.strDrink,
+      category: recipe.strCategory,
+      image: recipe.strMealThumb || recipe.strDrinkThumb,
+      tags: recipe.strTags === null ? [] : recipe.strTags.split(','),
+      alcoholicOrNot: recipe.strAlcoholic || '',
+      type: recType.split('s')[0],
+      doneDate: date.toISOString(),
+    };
+    localStorage.setItem('doneRecipes', JSON.stringify([...prevStorage, dnRec]));
+    history.push('/done-recipes');
+  };
+
   useEffect(() => {
     async function fetchRecipeById(route, recipeId) {
       try {
@@ -165,7 +184,7 @@ export default function RecipeInProgress(props) {
         data-testid="finish-recipe-btn"
         type="button"
         disabled={ ingredients.length !== usedIngredients.length }
-        onClick={ () => {} }
+        onClick={ () => finishRecipe() }
         style={ { position: 'fixed', bottom: '0px' } }
       >
         Finalizar Receita
