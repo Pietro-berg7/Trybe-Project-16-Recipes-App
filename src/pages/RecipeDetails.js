@@ -3,12 +3,17 @@ import { useHistory } from 'react-router-dom';
 import { Context } from '../context/useContext';
 
 import Recommendations from '../components/Recommendations';
+import shareIcon from '../images/shareIcon.svg';
+
+const copy = require('clipboard-copy');
 
 export default function Recipe() {
   const history = useHistory();
   const { pathname } = history.location;
   const { fetchRecipeId } = useContext(Context);
   const [recipe, setRecipe] = useState();
+  const [startRecipeBtn] = useState(false);
+  const [shareRecipe, setShareRecipe] = useState(false);
 
   useEffect(() => {
     const fetchRecipeById = async () => {
@@ -24,7 +29,16 @@ export default function Recipe() {
   }, []);
 
   const done = JSON.parse(localStorage.getItem('doneRecipes'));
-  console.log(done);
+
+  const handleStartRecipe = () => {
+    const str = '/in-progress';
+    history.push(history.location.pathname + str);
+  };
+
+  const handleShare = () => {
+    copy(`http://localhost:3000${history.location.pathname}`);
+    setShareRecipe(true);
+  };
 
   return (
     recipe && (
@@ -75,20 +89,38 @@ export default function Recipe() {
             allowFullScreen
           />
         )}
-        {
-          done
-            .includes(recipe.idMeal || recipe.idDrink)
-            ? null
-            : (
-              <button
-                data-testid="start-recipe-btn"
-                type="button"
-                style={ { position: 'fixed', bottom: '0px' } }
-              >
-                Start Recipe
-              </button>
-            )
-        }
+        <div>
+          {
+            done
+              .includes(recipe.idMeal || recipe.idDrink)
+              ? null
+              : (
+                <button
+                  data-testid="start-recipe-btn"
+                  type="button"
+                  style={ { position: 'fixed', bottom: '0px' } }
+                  onClick={ handleStartRecipe }
+                >
+                  { startRecipeBtn ? ('Start Recipe') : ('Continue Recipe') }
+                </button>
+              )
+          }
+        </div>
+        <button
+          data-testid="share-btn"
+          type="button"
+          onClick={ handleShare }
+        >
+          <img src={ shareIcon } alt="shareIcon" />
+        </button>
+        {shareRecipe && <p>Link copied!</p>}
+        <button
+          data-testid="favorite-btn"
+          type="button"
+        >
+          Favorite
+        </button>
+
         <Recommendations />
       </main>
     )
