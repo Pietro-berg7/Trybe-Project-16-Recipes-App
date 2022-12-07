@@ -22,6 +22,10 @@ const testEmail = 'tryber@test.com';
 const locStKey = 'user';
 
 describe('Tests the Profile Page', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   it('Should test if the correct elements are displayed', async () => {
     const { history } = renderWithRouter(<App />);
     localStorage.setItem(locStKey, JSON.stringify({ email: testEmail }));
@@ -35,6 +39,15 @@ describe('Tests the Profile Page', () => {
     expect(screen.getByTestId(testIds.doneBtn)).toBeInTheDocument();
     expect(screen.getByTestId(testIds.favBtn)).toBeInTheDocument();
     expect(screen.getByTestId(testIds.logoutBtn)).toBeInTheDocument();
+  });
+
+  it('Should test if a placeholder email is provided', async () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push(paths.profile));
+
+    await waitFor(() => {
+      expect(screen.getByTestId(testIds.mail)).toHaveTextContent('email@email.com');
+    });
   });
 
   it('Should test if the email is recovered from the local storage', async () => {
