@@ -1,6 +1,7 @@
 /* eslint-disable complexity */
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { object } from 'prop-types';
 import { Context } from '../context/useContext';
 import Recommendations from '../components/Recommendations';
 import shareIcon from '../images/shareIcon.svg';
@@ -8,7 +9,8 @@ import ButtonFavorite from '../components/ButtonFavorite';
 
 const copy = require('clipboard-copy');
 
-export default function Recipe() {
+export default function RecipeDetails(props) {
+  const { match: { params: { id } } } = props;
   const history = useHistory();
   const { pathname } = history.location;
   const { fetchRecipeId } = useContext(Context);
@@ -116,9 +118,13 @@ export default function Recipe() {
           <img src={ shareIcon } alt="shareIcon" />
         </button>
         {shareRecipe && <p>Link copied!</p>}
-        <ButtonFavorite pathname={ pathname } recipe={ recipe } />
+        <ButtonFavorite pathname={ pathname } recipe={ recipe } id={ id } />
         <Recommendations />
       </main>
     )
   );
 }
+
+RecipeDetails.propTypes = {
+  match: object,
+}.isRequired;

@@ -5,7 +5,7 @@ import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 export default function ButtonFavorite(props) {
-  const { pathname, recipe } = props;
+  const { pathname, recipe, id } = props;
   const [favIcon, setFavIcon] = useState(whiteHeartIcon);
 
   useEffect(() => {
@@ -13,7 +13,7 @@ export default function ButtonFavorite(props) {
       const favoriteIcon = () => {
         const favorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
         if (favorites.find((element) => (
-          element.id === recipe.idDrink || element.id === recipe.idMeal))) {
+          element.id === id))) {
           setFavIcon(blackHeartIcon);
         }
       };
@@ -23,10 +23,20 @@ export default function ButtonFavorite(props) {
 
   const handleFavorite = () => {
     const prev = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    localStorage.setItem('favoriteRecipes', JSON.stringify([
-      ...prev,
-      addFavorite(recipe, pathname),
-    ]));
+    if (prev.find((element) => (
+      element.id === id))) {
+      const remove = prev.filter((element) => (
+        element.id !== id));
+      console.log(remove);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(remove));
+      setFavIcon(whiteHeartIcon);
+    } else {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([
+        ...prev,
+        addFavorite(recipe, pathname),
+      ]));
+      setFavIcon(blackHeartIcon);
+    }
   };
 
   return (
