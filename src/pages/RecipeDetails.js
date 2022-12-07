@@ -31,8 +31,7 @@ export default function Recipe() {
   const done = JSON.parse(localStorage.getItem('doneRecipes'));
 
   const handleStartRecipe = () => {
-    const str = '/in-progress';
-    history.push(history.location.pathname + str);
+    history.push(`${history.location.pathname}/in-progress`);
   };
 
   const handleShare = () => {
