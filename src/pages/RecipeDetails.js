@@ -1,13 +1,12 @@
 /* eslint-disable complexity */
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import copy from 'clipboard-copy';
 import { object } from 'prop-types';
 import { Context } from '../context/useContext';
 import Recommendations from '../components/Recommendations';
-import shareIcon from '../images/shareIcon.svg';
 import ButtonFavorite from '../components/ButtonFavorite';
-
-const copy = require('clipboard-copy');
+import ButtonShare from '../components/ButtonShare';
 
 export default function RecipeDetails(props) {
   const { match: { params: { id } } } = props;
@@ -54,10 +53,9 @@ export default function RecipeDetails(props) {
           width="100%"
         />
         <h1 data-testid="recipe-title">{ recipe.strMeal || recipe.strDrink }</h1>
-        <h3 data-testid="recipe-category">{ recipe.strCategory }</h3>
-        { recipe.strAlcoholic && (
-          <p data-testid="recipe-category">{ recipe.strAlcoholic }</p>
-        )}
+        <h3 data-testid="recipe-category">
+          { recipe.strAlcoholic || recipe.strCategory }
+        </h3>
         <h2>Ingredients</h2>
         { Object.entries(recipe)
           .filter((element) => (element[0].includes('Ingredient')))
@@ -110,13 +108,7 @@ export default function RecipeDetails(props) {
               )
           }
         </div>
-        <button
-          data-testid="share-btn"
-          type="button"
-          onClick={ handleShare }
-        >
-          <img src={ shareIcon } alt="shareIcon" />
-        </button>
+        <ButtonShare handleShare={ handleShare } />
         {shareRecipe && <p>Link copied!</p>}
         <ButtonFavorite pathname={ pathname } recipe={ recipe } id={ id } />
         <Recommendations />
