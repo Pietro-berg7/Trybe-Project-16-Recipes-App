@@ -42,6 +42,7 @@ describe('Teste Header', () => {
   });
   it('teste Header no profile', async () => {
     const { history } = renderWithRouter(<App />);
+    localStorage.setItem('user', JSON.stringify({ email: 'tryber@test.com' }));
     history.push('/profile');
     await hasHeader('Profile', false);
   });
