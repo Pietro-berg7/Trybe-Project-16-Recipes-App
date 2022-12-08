@@ -1,21 +1,31 @@
-import { func } from 'prop-types';
-import React from 'react';
+import { string } from 'prop-types';
+import React, { useState } from 'react';
+import copy from 'clipboard-copy';
 import shareIcon from '../images/shareIcon.svg';
 
 export default function ButtonShare(props) {
-  const { handleShare } = props;
+  const { pathname } = props;
+  const [shareRecipe, setShareRecipe] = useState(false);
+
+  const handleShare = () => {
+    copy(`http://localhost:3000${pathname}`);
+    setShareRecipe(true);
+  };
 
   return (
-    <button
-      data-testid="share-btn"
-      type="button"
-      onClick={ handleShare }
-    >
-      <img src={ shareIcon } alt="shareIcon" />
-    </button>
+    <div>
+      <button
+        data-testid="share-btn"
+        type="button"
+        onClick={ handleShare }
+      >
+        <img src={ shareIcon } alt="shareIcon" />
+      </button>
+      {shareRecipe && <p>Link copied!</p>}
+    </div>
   );
 }
 
 ButtonShare.propTypes = {
-  handleShare: func,
+  pathname: string,
 }.isRequired;

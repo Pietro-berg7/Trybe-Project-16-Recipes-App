@@ -1,7 +1,6 @@
 /* eslint-disable complexity */
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import copy from 'clipboard-copy';
 import { object } from 'prop-types';
 import { Context } from '../context/useContext';
 import Recommendations from '../components/Recommendations';
@@ -15,7 +14,6 @@ export default function RecipeDetails(props) {
   const { fetchRecipeId } = useContext(Context);
   const [recipe, setRecipe] = useState();
   const [startRecipeBtn] = useState(false);
-  const [shareRecipe, setShareRecipe] = useState(false);
   const done = JSON.parse(localStorage.getItem('doneRecipes'));
 
   useEffect(() => {
@@ -36,11 +34,6 @@ export default function RecipeDetails(props) {
 
   const handleStartRecipe = () => {
     history.push(`${history.location.pathname}/in-progress`);
-  };
-
-  const handleShare = () => {
-    copy(`http://localhost:3000${history.location.pathname}`);
-    setShareRecipe(true);
   };
 
   return (
@@ -108,8 +101,7 @@ export default function RecipeDetails(props) {
               )
           }
         </div>
-        <ButtonShare handleShare={ handleShare } />
-        {shareRecipe && <p>Link copied!</p>}
+        <ButtonShare pathname={ pathname } />
         <ButtonFavorite pathname={ pathname } recipe={ recipe } id={ id } />
         <Recommendations />
       </main>
