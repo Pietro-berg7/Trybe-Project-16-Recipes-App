@@ -5,13 +5,21 @@ import { act } from 'react-dom/test-utils';
 import App from '../App';
 import renderWithRouter from './helpers/renderWithRouter';
 import meals from './mocks/meals';
+import drinks from './mocks/drinks';
 
-export default function mockFetch() {
+export function mockFetch() {
   return Promise.resolve({
     status: 200,
     ok: true,
-    json: () => Promise.resolve(meals)
-    ,
+    json: () => Promise.resolve(meals),
+  });
+}
+
+export function mockFetchs() {
+  return Promise.resolve({
+    status: 200,
+    ok: true,
+    json: () => Promise.resolve(drinks),
   });
 }
 
@@ -126,7 +134,7 @@ describe('Recipe Details Tests', () => {
     expect(screen.getByText('Link copied!')).toBeInTheDocument();
   });
 
-  test('Testa elementos da página', async () => {
+  test('Testa elementos da página meals', async () => {
     jest.spyOn(global, 'fetch').mockImplementation(mockFetch);
 
     const { history } = renderWithRouter(<App />);
@@ -142,22 +150,33 @@ describe('Recipe Details Tests', () => {
       const title = screen.getByTestId('recipe-title');
       const category = screen.getByTestId('recipe-category');
       const video = screen.getByTestId('video');
-      const button = screen.getByTestId('start-recipe-btn');
 
       expect(photo).toBeInTheDocument();
       expect(title).toHaveTextContent('Corba');
       expect(category).toBeInTheDocument();
       expect(video).toBeInTheDocument();
-      expect(button).toBeInTheDocument();
     });
   });
 
-  // test('Testa recomendações', async () => {
-  //   jest.spyOn(global, 'fetch').mockImplementation(mockFetch);
+  test('Testa elementos da página drinks', async () => {
+    jest.spyOn(global, 'fetch').mockImplementation(mockFetchs);
 
-  //   const { history } = renderWithRouter(<App />);
-  //   act(() => history.push('/meals/52977'));
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push('/drinks'));
 
-  //   expect(screen.getByTestId('0-recommendation-title')).toBeInTheDocument();
-  // });
+    await waitFor(() => {
+      const filterBtn = screen.getByTestId(recipeCard);
+      userEvent.click(filterBtn);
+    });
+
+    await waitFor(() => {
+      const photo = screen.getByTestId('recipe-photo');
+      const title = screen.getByTestId('recipe-title');
+      const category = screen.getByTestId('recipe-category');
+
+      expect(photo).toBeInTheDocument();
+      expect(title).toHaveTextContent('GG');
+      expect(category).toBeInTheDocument();
+    });
+  });
 });
