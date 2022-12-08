@@ -72,7 +72,7 @@ export default function RecipeInProgress(props) {
         }
         setRecipe(data.meals[0]);
       } catch (e) {
-        console.error(e);
+        console.error(e.message);
       }
     }
 
