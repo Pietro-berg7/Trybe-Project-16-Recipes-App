@@ -9,6 +9,10 @@ export default function ButtonFavorite(props) {
   const [favIcon, setFavIcon] = useState(whiteHeartIcon);
 
   useEffect(() => {
+    const prevFavorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (prevFavorites === null) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+    }
     const favoriteIcon = () => {
       const favorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
       if (favorites.find((element) => (element.id === id))) {
@@ -16,7 +20,7 @@ export default function ButtonFavorite(props) {
       }
     };
     favoriteIcon();
-  });
+  }, [id]);
 
   const handleFavorite = () => {
     const prev = JSON.parse(localStorage.getItem('favoriteRecipes'));

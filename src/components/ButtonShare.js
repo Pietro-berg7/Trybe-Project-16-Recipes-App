@@ -8,7 +8,7 @@ export default function ButtonShare(props) {
   const [shareRecipe, setShareRecipe] = useState(false);
 
   const handleShare = () => {
-    copy(`http://localhost:3000${pathname}`);
+    copy(`http://localhost:3000${pathname.replace('/in-progress', '')}`);
     setShareRecipe(true);
   };
 

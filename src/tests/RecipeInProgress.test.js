@@ -77,6 +77,8 @@ const locStrg = {
   ],
 };
 
+jest.mock('clipboard-copy');
+
 describe('Tests the elements displayed at the Recipe In Progress Page', () => {
   beforeEach(() => {
     localStorage.clear();
@@ -305,5 +307,47 @@ describe('Tests the elements displayed at the Recipe In Progress Page', () => {
       userEvent.click(shareBtn);
       userEvent.click(favBtn);
     });
+  });
+
+  test('Testa a função adicionar e remover favoritos', async () => {
+    localStorage.removeItem('favoriteRecipes');
+    localStorage.setItem('favoriteRecipes', JSON.stringify([{
+      id: '52977',
+      type: 'meal',
+      nationality: 'Turkish',
+      category: 'Side',
+      alcoholicOrNot: '',
+      name: 'Corba',
+      image: 'https://www.themealdb.com/images/media/meals/58oia61564916529.jpg',
+    }]));
+
+    jest.spyOn(global, 'fetch').mockImplementation(mockFetch);
+
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push(pages.corba));
+
+    await waitFor(() => {
+      const favoriteBtn = screen.getByTestId(testIds.favoriteBtn);
+      expect(favoriteBtn).toBeInTheDocument();
+      userEvent.click(favoriteBtn);
+    });
+
+    const newBtnFavorite = screen.getByTestId(testIds.favoriteBtn);
+    expect(newBtnFavorite).toHaveAttribute('src', 'whiteHeartIcon.svg');
+  });
+
+  test('Testa o botão Share', async () => {
+    jest.spyOn(global, 'fetch').mockImplementation(mockFetch);
+
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push(pages.corba));
+
+    await waitFor(() => {
+      const shareBtn = screen.getByTestId(testIds.shareBtn);
+      expect(shareBtn).toBeInTheDocument();
+      userEvent.click(shareBtn);
+    });
+
+    expect(screen.getByText('Link copied!')).toBeInTheDocument();
   });
 });

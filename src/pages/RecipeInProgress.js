@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import propTypes from 'prop-types';
+import ButtonShare from '../components/ButtonShare';
+import ButtonFavorite from '../components/ButtonFavorite';
 
 const adjustIngredients = (obj) => {
   const ingArr = [];
@@ -15,6 +17,7 @@ const adjustIngredients = (obj) => {
 
 export default function RecipeInProgress(props) {
   const { match: { params: { id }, url }, history } = props;
+  const { pathname } = history.location;
   const recType = url.includes('drinks') ? 'drinks' : 'meals';
   const [recipe, setRecipe] = useState({});
   const [ingredients, setIngredients] = useState([]);
@@ -136,20 +139,8 @@ export default function RecipeInProgress(props) {
         width="100px"
       />
       <div>
-        <button
-          data-testid="share-btn"
-          type="button"
-          onClick={ () => {} }
-        >
-          Compartilhar
-        </button>
-        <button
-          data-testid="favorite-btn"
-          type="button"
-          onClick={ () => {} }
-        >
-          Favoritar
-        </button>
+        <ButtonShare pathname={ pathname } />
+        <ButtonFavorite pathname={ pathname } recipe={ recipe } id={ id } />
       </div>
       <h3 data-testid="recipe-category">{ recipe.strCategory }</h3>
       <h4>{ recipe.strAlcoholic || null}</h4>
