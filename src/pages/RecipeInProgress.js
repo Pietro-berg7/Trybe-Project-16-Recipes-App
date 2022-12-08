@@ -152,6 +152,7 @@ export default function RecipeInProgress(props) {
         </button>
       </div>
       <h3 data-testid="recipe-category">{ recipe.strCategory }</h3>
+      <h4>{ recipe.strAlcoholic || null}</h4>
       <p data-testid="instructions">
         { recipe.strInstructions }
       </p>
