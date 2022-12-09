@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import copy from 'clipboard-copy';
 import Header from '../components/Header';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
@@ -6,6 +7,7 @@ import shareIcon from '../images/shareIcon.svg';
 
 export default function Favorites() {
   const [favorite, setFavorite] = useState([]);
+  const [filter, setFilter] = useState('all');
   const [shareRecipe, setShareRecipe] = useState(false);
 
   const handleShare = (element) => {
@@ -38,21 +40,21 @@ export default function Favorites() {
         <button
           type="button"
           data-testid="filter-by-all-btn"
-          onClick={ () => {} }
+          onClick={ () => setFilter('all') }
         >
           All
         </button>
         <button
           type="button"
           data-testid="filter-by-meal-btn"
-          onClick={ () => {} }
+          onClick={ () => setFilter('meal') }
         >
           Meals
         </button>
         <button
           type="button"
           data-testid="filter-by-drink-btn"
-          onClick={ () => {} }
+          onClick={ () => setFilter('drink') }
         >
           Drinks
         </button>
@@ -61,23 +63,27 @@ export default function Favorites() {
       { favorite.length && (
         <section>
           {
-            favorite
+            favorite.filter(({ type }) => filter === 'all' || type === filter)
               .map((element, index) => (
                 <div
                   key={ `${element.id}-${index}` }
                 >
                   <div>
-                    <img
-                      width="50%"
-                      data-testid={ `${index}-horizontal-image` }
-                      src={ element.image }
-                      alt={ `${element.name}` }
-                    />
-                    <h3
-                      data-testid={ `${index}-horizontal-name` }
-                    >
-                      {element.name}
-                    </h3>
+                    <Link to={ `/${element.type}s/${element.id}` }>
+                      <img
+                        width="50%"
+                        data-testid={ `${index}-horizontal-image` }
+                        src={ element.image }
+                        alt={ `${element.name}` }
+                      />
+                    </Link>
+                    <Link to={ `/${element.type}s/${element.id}` }>
+                      <h3
+                        data-testid={ `${index}-horizontal-name` }
+                      >
+                        {element.name}
+                      </h3>
+                    </Link>
                     <p
                       data-testid={ `${index}-horizontal-top-text` }
                     >
@@ -106,7 +112,6 @@ export default function Favorites() {
                     >
                       <img src={ blackHeartIcon } alt="" />
                     </button>
-
                   </div>
                 </div>
               ))
