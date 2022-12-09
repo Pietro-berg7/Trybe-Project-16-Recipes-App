@@ -4,7 +4,7 @@ import copy from 'clipboard-copy';
 import shareIcon from '../images/shareIcon.svg';
 
 export default function ButtonShare(props) {
-  const { pathname } = props;
+  const { pathname, testid } = props;
   const [shareRecipe, setShareRecipe] = useState(false);
 
   const handleShare = () => {
@@ -15,11 +15,11 @@ export default function ButtonShare(props) {
   return (
     <div>
       <button
-        data-testid="share-btn"
         type="button"
         onClick={ handleShare }
+        data-testid="share-btn"
       >
-        <img src={ shareIcon } alt="shareIcon" />
+        <img src={ shareIcon } alt="shareIcon" data-testid={ testid } />
       </button>
       {shareRecipe && <p>Link copied!</p>}
     </div>
@@ -28,4 +28,5 @@ export default function ButtonShare(props) {
 
 ButtonShare.propTypes = {
   pathname: string,
+  testid: string,
 }.isRequired;

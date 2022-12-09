@@ -13,6 +13,23 @@ export default function DoneRecipes() {
     setRecipes(doneRecipes);
   }, []);
 
+  const tagsGenerate = (tags, index) => {
+    console.log(tags);
+    if (tags.length === 0) return '';
+    if (tags.length === 1) {
+      return (
+        <p data-testid={ `${index}-${tags[0]}-horizontal-tag` }>{tags[0]}</p>
+      );
+    }
+    return (
+      <p>
+        <span data-testid={ `${index}-${tags[0]}-horizontal-tag` }>{tags[0]}</span>
+        ,
+        <span data-testid={ `${index}-${tags[1]}-horizontal-tag` }>{tags[1]}</span>
+      </p>
+    );
+  };
+
   return (
     <div>
       <Header />
@@ -42,8 +59,7 @@ export default function DoneRecipes() {
       </div>
       <div className="recipes-container">
         {recipes.filter((recipe) => filter.includes(recipe.type)).map((recipe, i) => {
-          const tags = recipe.tags.length > 1
-            ? `${recipe.tags[0]}, ${recipe.tags[1]}` : recipe.tags[0];
+          const tags = tagsGenerate(recipe.tags, i);
           const topText = `${recipe.nationality} - ${recipe.category}`;
           const path = `/${recipe.type}s/${recipe.id}`;
           return (
@@ -56,7 +72,7 @@ export default function DoneRecipes() {
                   style={ { width: '100%' } }
                   src={ recipe.image }
                   alt="Imagem receita"
-                  data-testid={ `${i}-horizontal-img` }
+                  data-testid={ `${i}-horizontal-image` }
                 />
                 <p data-testid={ `${i}-horizontal-name` }>{recipe.name}</p>
               </button>
@@ -64,14 +80,14 @@ export default function DoneRecipes() {
                 {recipe.type === 'drink' ? recipe.alcoholicOrNot : topText}
               </p>
               <p data-testid={ `${i}-horizontal-done-date` }>{recipe.doneDate}</p>
-              <p data-testid={ `${i}-horizontal-horizontal-tag` }>{tags}</p>
+              {tags}
               {/* <button
                 type="button"
                 data-testid={ `${i}-horizontal-share-btn` }
               >
                 <img src={ shareButton } alt="Share" />
               </button> */}
-              <ButtonShare pathname={ path } />
+              <ButtonShare pathname={ path } testid={ `${i}-horizontal-share-btn` } />
             </div>
           );
         })}

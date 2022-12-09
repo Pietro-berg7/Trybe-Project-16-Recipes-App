@@ -101,7 +101,7 @@ export default function RecipeDetails(props) {
               )
           }
         </div>
-        <ButtonShare pathname={ pathname } />
+        <ButtonShare pathname={ pathname } testid="btn-svg" />
         <ButtonFavorite pathname={ pathname } recipe={ recipe } id={ id } />
         <Recommendations />
       </main>
