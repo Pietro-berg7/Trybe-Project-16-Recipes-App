@@ -2,6 +2,7 @@ import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
+import { wait } from '@testing-library/user-event/dist/utils';
 import App from '../App';
 import renderWithRouter from './helpers/renderWithRouter';
 import meals from './mocks/meals';
@@ -28,6 +29,7 @@ jest.mock('clipboard-copy');
 describe('Recipe Details Tests', () => {
   const recipeCard = '0-recipe-card';
   const favoriteBtnId = 'favorite-btn';
+  const corba = '/meals/52977';
 
   test('behavior', async () => {
     jest.spyOn(global, 'fetch').mockImplementation(mockFetch);
@@ -44,7 +46,7 @@ describe('Recipe Details Tests', () => {
       expect(instructions).toBeInTheDocument();
     });
     const { pathname } = history.location;
-    expect(pathname).toBe('/meals/52977');
+    expect(pathname).toBe(corba);
   });
 
   test('Verifica se ao clicar no botão Start Recipe é redirecionado para RecipesInProgress', async () => {
@@ -138,12 +140,7 @@ describe('Recipe Details Tests', () => {
     jest.spyOn(global, 'fetch').mockImplementation(mockFetch);
 
     const { history } = renderWithRouter(<App />);
-    act(() => history.push('/meals'));
-
-    await waitFor(() => {
-      const filterBtn = screen.getByTestId(recipeCard);
-      userEvent.click(filterBtn);
-    });
+    act(() => history.push(corba));
 
     await waitFor(() => {
       const photo = screen.getByTestId('recipe-photo');
