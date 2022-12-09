@@ -13,6 +13,13 @@ export default function Favorites() {
     setShareRecipe(true);
   };
 
+  const handleFavorite = (id) => {
+    const favoriteStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const newFavorites = favoriteStorage.filter((element) => element.id !== id);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newFavorites));
+    setFavorite(newFavorites);
+  };
+
   useEffect(() => {
     const getFavorites = () => {
       const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
@@ -95,9 +102,11 @@ export default function Favorites() {
                       data-testid={ `${index}-horizontal-favorite-btn` }
                       type="button"
                       src={ blackHeartIcon }
+                      onClick={ () => handleFavorite(element.id) }
                     >
                       <img src={ blackHeartIcon } alt="" />
                     </button>
+
                   </div>
                 </div>
               ))
