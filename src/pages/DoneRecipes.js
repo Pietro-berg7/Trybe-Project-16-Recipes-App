@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import ButtonShare from '../components/ButtonShare';
 import Header from '../components/Header';
-import shareButton from '../images/shareIcon.svg';
 
 export default function DoneRecipes() {
   const history = useHistory();
@@ -45,11 +45,12 @@ export default function DoneRecipes() {
           const tags = recipe.tags.length > 1
             ? `${recipe.tags[0]}, ${recipe.tags[1]}` : recipe.tags[0];
           const topText = `${recipe.nationality} - ${recipe.category}`;
+          const path = `/${recipe.type}s/${recipe.id}`;
           return (
             <div key={ i } style={ { width: '100px' } }>
               <button
                 type="button"
-                onClick={ () => history.push(`/${recipe.type}s/${recipe.id}`) }
+                onClick={ () => history.push(path) }
               >
                 <img
                   style={ { width: '100%' } }
@@ -57,19 +58,20 @@ export default function DoneRecipes() {
                   alt="Imagem receita"
                   data-testid={ `${i}-horizontal-img` }
                 />
+                <p data-testid={ `${i}-horizontal-name` }>{recipe.name}</p>
               </button>
               <p data-testid={ `${i}-horizontal-top-text` }>
                 {recipe.type === 'drink' ? recipe.alcoholicOrNot : topText}
               </p>
-              <p data-testid={ `${i}-horizontal-name` }>{recipe.name}</p>
               <p data-testid={ `${i}-horizontal-done-date` }>{recipe.doneDate}</p>
               <p data-testid={ `${i}-horizontal-horizontal-tag` }>{tags}</p>
-              <button
+              {/* <button
                 type="button"
                 data-testid={ `${i}-horizontal-share-btn` }
               >
                 <img src={ shareButton } alt="Share" />
-              </button>
+              </button> */}
+              <ButtonShare pathname={ path } />
             </div>
           );
         })}
