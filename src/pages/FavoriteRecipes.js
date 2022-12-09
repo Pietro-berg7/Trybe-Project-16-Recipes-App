@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import copy from 'clipboard-copy';
 import Header from '../components/Header';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
 
 export default function Favorites() {
   const [favorite, setFavorite] = useState([]);
+  const [shareRecipe, setShareRecipe] = useState(false);
+
+  const handleShare = (element) => {
+    copy(`http://localhost:3000/${element.type}s/${element.id}`);
+    setShareRecipe(true);
+  };
 
   useEffect(() => {
     const getFavorites = () => {
@@ -78,9 +85,11 @@ export default function Favorites() {
                         data-testid={ `${index}-horizontal-share-btn` }
                         type="button"
                         src={ shareIcon }
+                        onClick={ () => handleShare(element) }
                       >
                         <img src={ shareIcon } alt="shareIcon" />
                       </button>
+                      {shareRecipe && <span>Link copied!</span>}
                     </div>
                     <button
                       data-testid={ `${index}-horizontal-favorite-btn` }
