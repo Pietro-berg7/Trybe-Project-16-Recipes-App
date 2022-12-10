@@ -2,7 +2,6 @@ import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
-import { wait } from '@testing-library/user-event/dist/utils';
 import App from '../App';
 import renderWithRouter from './helpers/renderWithRouter';
 import meals from './mocks/meals';

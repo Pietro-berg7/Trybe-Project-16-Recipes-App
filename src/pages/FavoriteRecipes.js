@@ -8,11 +8,11 @@ import shareIcon from '../images/shareIcon.svg';
 export default function Favorites() {
   const [favorite, setFavorite] = useState([]);
   const [filter, setFilter] = useState('all');
-  const [shareRecipe, setShareRecipe] = useState(false);
+  const [shareRecipe, setShareRecipe] = useState('');
 
-  const handleShare = (element) => {
+  const handleShare = (element, id) => {
     copy(`http://localhost:3000/${element.type}s/${element.id}`);
-    setShareRecipe(true);
+    setShareRecipe(id);
   };
 
   const handleFavorite = (id) => {
@@ -27,8 +27,9 @@ export default function Favorites() {
       const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
       if (favoriteRecipes === null) {
         localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+      } else {
+        setFavorite(favoriteRecipes);
       }
-      setFavorite(favoriteRecipes);
     };
     getFavorites();
   }, []);
@@ -98,11 +99,11 @@ export default function Favorites() {
                         data-testid={ `${index}-horizontal-share-btn` }
                         type="button"
                         src={ shareIcon }
-                        onClick={ () => handleShare(element) }
+                        onClick={ () => handleShare(element, element.id) }
                       >
                         <img src={ shareIcon } alt="shareIcon" />
                       </button>
-                      {shareRecipe && <span>Link copied!</span>}
+                      {shareRecipe === element.id && <span>Link copied!</span>}
                     </div>
                     <button
                       data-testid={ `${index}-horizontal-favorite-btn` }
