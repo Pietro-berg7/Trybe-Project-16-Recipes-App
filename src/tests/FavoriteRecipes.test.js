@@ -29,19 +29,25 @@ const mock = [
 ];
 
 describe('Verificando a page RecipeDetails', () => {
+  const horizontalImage = '0-horizontal-image';
+  const favoriteRecipes = '/favorite-recipes';
+  const btnAllFilter = 'filter-by-all-btn';
+  const btnMealFilter = 'filter-by-meal-btn';
+  const btnDrinkFilter = 'filter-by-drink-btn';
+
   it('Verifica se os componentes são renderizados quando não há favoritos', async () => {
     localStorage.removeItem('favoriteRecipes');
     localStorage.setItem('favoriteRecipes', JSON.stringify([]));
 
     const { history } = renderWithRouter(<App />);
-    act(() => history.push('/favorite-recipes'));
+    act(() => history.push(favoriteRecipes));
 
     await waitFor(() => {
       const profile = screen.getByTestId('profile-top-btn');
       const title = screen.getByTestId('page-title');
-      const all = screen.getByTestId('filter-by-all-btn');
-      const food = screen.getByTestId('filter-by-meal-btn');
-      const drink = screen.getByTestId('filter-by-drink-btn');
+      const all = screen.getByTestId(btnAllFilter);
+      const food = screen.getByTestId(btnMealFilter);
+      const drink = screen.getByTestId(btnDrinkFilter);
 
       expect(profile).toBeInTheDocument();
       expect(title).toBeInTheDocument();
@@ -56,15 +62,15 @@ describe('Verificando a page RecipeDetails', () => {
     localStorage.setItem('favoriteRecipes', JSON.stringify(mock));
 
     const { history } = renderWithRouter(<App />);
-    act(() => history.push('/favorite-recipes'));
+    act(() => history.push(favoriteRecipes));
 
     await waitFor(() => {
       const profile = screen.getByTestId('profile-top-btn');
       const title = screen.getByTestId('page-title');
-      const all = screen.getByTestId('filter-by-all-btn');
-      const food = screen.getByTestId('filter-by-meal-btn');
-      const drink = screen.getByTestId('filter-by-drink-btn');
-      const firstPhoto = screen.getByTestId('0-horizontal-image');
+      const all = screen.getByTestId(btnAllFilter);
+      const food = screen.getByTestId(btnMealFilter);
+      const drink = screen.getByTestId(btnDrinkFilter);
+      const firstPhoto = screen.getByTestId(horizontalImage);
       const firstTitle = screen.getByTestId('0-horizontal-name');
       const firstCategory = screen.getByTestId('0-horizontal-top-text');
       const firstShareBtn = screen.getByTestId('0-horizontal-share-btn');
@@ -88,12 +94,12 @@ describe('Verificando a page RecipeDetails', () => {
     localStorage.setItem('favoriteRecipes', JSON.stringify(mock));
 
     const { history } = renderWithRouter(<App />);
-    act(() => history.push('/favorite-recipes'));
+    act(() => history.push(favoriteRecipes));
 
-    const filterAll = screen.getByTestId('filter-by-all-btn');
-    const filterFood = screen.getByTestId('filter-by-meal-btn');
-    const filterDrink = screen.getByTestId('filter-by-drink-btn');
-    const firstPhoto = screen.getByTestId('0-horizontal-image');
+    const filterAll = screen.getByTestId(btnAllFilter);
+    const filterFood = screen.getByTestId(btnMealFilter);
+    const filterDrink = screen.getByTestId(btnDrinkFilter);
+    const firstPhoto = screen.getByTestId(horizontalImage);
     const secondPhoto = screen.getByTestId('1-horizontal-image');
 
     userEvent.click(filterFood);
@@ -107,7 +113,7 @@ describe('Verificando a page RecipeDetails', () => {
     expect(newSecondPhoto).toBeInTheDocument();
     userEvent.click(filterDrink);
 
-    const newFirstPhoto = screen.getByTestId('0-horizontal-image');
+    const newFirstPhoto = screen.getByTestId(horizontalImage);
 
     expect(newFirstPhoto).toBeInTheDocument();
     expect(newSecondPhoto).not.toBeInTheDocument();
@@ -120,9 +126,9 @@ describe('Verificando a page RecipeDetails', () => {
     localStorage.setItem('favoriteRecipes', JSON.stringify(mock));
 
     const { history } = renderWithRouter(<App />);
-    act(() => history.push('/favorite-recipes'));
+    act(() => history.push(favoriteRecipes));
 
-    const firstPhoto = screen.getByTestId('0-horizontal-image');
+    const firstPhoto = screen.getByTestId(horizontalImage);
 
     userEvent.click(firstPhoto);
     expect(history.location.pathname).toBe('/meals/52977');
@@ -133,7 +139,7 @@ describe('Verificando a page RecipeDetails', () => {
     localStorage.setItem('favoriteRecipes', JSON.stringify(mock));
 
     const { history } = renderWithRouter(<App />);
-    act(() => history.push('/favorite-recipes'));
+    act(() => history.push(favoriteRecipes));
 
     const firstTitle = screen.getByTestId('0-horizontal-name');
 
@@ -146,7 +152,7 @@ describe('Verificando a page RecipeDetails', () => {
     localStorage.setItem('favoriteRecipes', JSON.stringify(mock));
 
     const { history } = renderWithRouter(<App />);
-    act(() => history.push('/favorite-recipes'));
+    act(() => history.push(favoriteRecipes));
 
     const firstShareBtn = screen.getByTestId('0-horizontal-share-btn');
     const firstFavoriteBtn = screen.getByTestId('0-horizontal-favorite-btn');
