@@ -14,7 +14,6 @@ export default function DoneRecipes() {
   }, []);
 
   const tagsGenerate = (tags, index) => {
-    console.log(tags);
     if (tags.length === 0) return '';
     if (tags.length === 1) {
       return (
