@@ -10,7 +10,7 @@ export default function DoneRecipes() {
 
   useEffect(() => {
     const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
-    setRecipes(doneRecipes);
+    setRecipes(!doneRecipes ? [] : doneRecipes);
   }, []);
 
   const tagsGenerate = (tags, index) => {
@@ -29,6 +29,8 @@ export default function DoneRecipes() {
       </p>
     );
   };
+
+  console.log(recipes);
 
   return (
     <div>
