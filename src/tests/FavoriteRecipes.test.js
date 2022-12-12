@@ -46,13 +46,13 @@ describe('Verificando a page RecipeDetails', () => {
       const profile = screen.getByTestId('profile-top-btn');
       const title = screen.getByTestId('page-title');
       const all = screen.getByTestId(btnAllFilter);
-      const food = screen.getByTestId(btnMealFilter);
+      const meal = screen.getByTestId(btnMealFilter);
       const drink = screen.getByTestId(btnDrinkFilter);
 
       expect(profile).toBeInTheDocument();
       expect(title).toBeInTheDocument();
       expect(all).toBeInTheDocument();
-      expect(food).toBeInTheDocument();
+      expect(meal).toBeInTheDocument();
       expect(drink).toBeInTheDocument();
     });
   });
@@ -68,7 +68,7 @@ describe('Verificando a page RecipeDetails', () => {
       const profile = screen.getByTestId('profile-top-btn');
       const title = screen.getByTestId('page-title');
       const all = screen.getByTestId(btnAllFilter);
-      const food = screen.getByTestId(btnMealFilter);
+      const meal = screen.getByTestId(btnMealFilter);
       const drink = screen.getByTestId(btnDrinkFilter);
       const firstPhoto = screen.getByTestId(horizontalImage);
       const firstTitle = screen.getByTestId('0-horizontal-name');
@@ -79,7 +79,7 @@ describe('Verificando a page RecipeDetails', () => {
       expect(profile).toBeInTheDocument();
       expect(title).toBeInTheDocument();
       expect(all).toBeInTheDocument();
-      expect(food).toBeInTheDocument();
+      expect(meal).toBeInTheDocument();
       expect(drink).toBeInTheDocument();
       expect(firstPhoto).toBeInTheDocument();
       expect(firstTitle).toBeInTheDocument();
@@ -89,7 +89,7 @@ describe('Verificando a page RecipeDetails', () => {
     });
   });
 
-  it('Verifica os botões filtrar', async () => {
+  it('Verifica os botões filtrar', () => {
     localStorage.removeItem('favoriteRecipes');
     localStorage.setItem('favoriteRecipes', JSON.stringify(mock));
 
@@ -97,12 +97,12 @@ describe('Verificando a page RecipeDetails', () => {
     act(() => history.push(favoriteRecipes));
 
     const filterAll = screen.getByTestId(btnAllFilter);
-    const filterFood = screen.getByTestId(btnMealFilter);
+    const filterMeal = screen.getByTestId(btnMealFilter);
     const filterDrink = screen.getByTestId(btnDrinkFilter);
     const firstPhoto = screen.getByTestId(horizontalImage);
     const secondPhoto = screen.getByTestId('1-horizontal-image');
 
-    userEvent.click(filterFood);
+    userEvent.click(filterMeal);
     expect(firstPhoto).toBeInTheDocument();
     expect(secondPhoto).not.toBeInTheDocument();
     userEvent.click(filterAll);
@@ -121,7 +121,7 @@ describe('Verificando a page RecipeDetails', () => {
     expect(history.location.pathname).toBe('/drinks/15997');
   });
 
-  it('Verifica se é redirecionado ao clicar na imagem', async () => {
+  it('Verifica se é redirecionado ao clicar na imagem', () => {
     localStorage.removeItem('favoriteRecipes');
     localStorage.setItem('favoriteRecipes', JSON.stringify(mock));
 
@@ -134,7 +134,7 @@ describe('Verificando a page RecipeDetails', () => {
     expect(history.location.pathname).toBe('/meals/52977');
   });
 
-  it('Verifica se é redirecionado ao clicar na nome da receita', async () => {
+  it('Verifica se é redirecionado ao clicar na nome da receita', () => {
     localStorage.removeItem('favoriteRecipes');
     localStorage.setItem('favoriteRecipes', JSON.stringify(mock));
 
@@ -147,7 +147,7 @@ describe('Verificando a page RecipeDetails', () => {
     expect(history.location.pathname).toBe('/meals/52977');
   });
 
-  it('Verifica os botões Share e Favorite', async () => {
+  it('Verifica os botões Share e Favorite', () => {
     localStorage.removeItem('favoriteRecipes');
     localStorage.setItem('favoriteRecipes', JSON.stringify(mock));
 

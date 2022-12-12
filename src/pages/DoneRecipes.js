@@ -23,7 +23,6 @@ export default function DoneRecipes() {
     return (
       <p>
         <span data-testid={ `${index}-${tags[0]}-horizontal-tag` }>{tags[0]}</span>
-        ,
         <span data-testid={ `${index}-${tags[1]}-horizontal-tag` }>{tags[1]}</span>
       </p>
     );
