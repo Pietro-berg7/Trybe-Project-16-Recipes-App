@@ -30,8 +30,6 @@ export default function DoneRecipes() {
     );
   };
 
-  console.log(recipes);
-
   return (
     <div>
       <Header />
