@@ -1,4 +1,3 @@
-/* eslint-disable complexity */
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { object } from 'prop-types';
