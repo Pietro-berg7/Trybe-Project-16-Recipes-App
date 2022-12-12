@@ -49,13 +49,6 @@ describe('Testes de Receitas Feitas', () => {
   const btnMealFilter = 'filter-by-meal-btn';
   const btnDrinkFilter = 'filter-by-drink-btn';
 
-  it('Verifica renderização de DoneRecipes', () => {
-    const { history } = renderWithRouter(<App />);
-    localStorage.setItem(lclStrg.key, JSON.stringify(lclStrg.value));
-    act(() => history.push(doneRecipes));
-    screen.logTestingPlaygroundURL();
-  });
-
   it('Verifica se os componentes são renderizados', async () => {
     const { history } = renderWithRouter(<App />);
     localStorage.setItem(lclStrg[0].key, JSON.stringify(lclStrg[0].value));
