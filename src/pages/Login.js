@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { Main, Section, Input, Button, LogoDiv } from './CSS/Login.styled';
+
 function Login() {
   const history = useHistory();
   const [form, setForm] = useState({
@@ -18,10 +20,18 @@ function Login() {
     history.push('/meals');
   };
   return (
-    <main className="login-main">
-      <section>
+    <Main>
+      <Section>
+        <LogoDiv>
+          <p>
+            Trybe
+          </p>
+          <h1>
+            Recipes app
+          </h1>
+        </LogoDiv>
         <form>
-          <input
+          <Input
             placeholder="Email"
             type="email"
             data-testid="email-input"
@@ -29,7 +39,7 @@ function Login() {
             value={ form.email }
             onChange={ ({ target }) => setForm({ ...form, [target.name]: target.value }) }
           />
-          <input
+          <Input
             placeholder="Password"
             type="password"
             data-testid="password-input"
@@ -37,7 +47,7 @@ function Login() {
             value={ form.password }
             onChange={ ({ target }) => setForm({ ...form, [target.name]: target.value }) }
           />
-          <button
+          <Button
             data-testid="login-submit-btn"
             type="button"
             disabled={ handleFormValidation() }
@@ -45,10 +55,10 @@ function Login() {
           >
             Enter
 
-          </button>
+          </Button>
         </form>
-      </section>
-    </main>
+      </Section>
+    </Main>
   );
 }
 
