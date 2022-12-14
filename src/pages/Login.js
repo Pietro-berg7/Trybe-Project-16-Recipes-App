@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-
-import { Main, Section, Input, Button, LogoDiv } from './CSS/Login.styled';
+import plate from '../images/plate.svg';
+import { Main, Section, Input, Button, LogoDiv, Header } from './CSS/Login.styled';
 
 function Login() {
   const history = useHistory();
@@ -21,6 +21,13 @@ function Login() {
   };
   return (
     <Main>
+      <Header>
+        <img src={ plate } alt="plate" />
+        <div>
+          <p>Lets</p>
+          <h1>Get Cooking</h1>
+        </div>
+      </Header>
       <Section>
         <LogoDiv>
           <p>

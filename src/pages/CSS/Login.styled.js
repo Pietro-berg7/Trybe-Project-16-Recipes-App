@@ -9,6 +9,42 @@ const transition = keyframes`
   }
 `;
 
+const rotate = keyframes`
+  from {
+    transform: rotate(30deg);
+  }
+  to {
+    transform: rotate(0);
+  }
+`;
+
+export const Header = styled.header`
+
+  img {
+    position: absolute;
+    width: 450px;
+    height: 450px;
+    left: 135px;
+    top: -200px;
+    animation: ${rotate} 0.75s ease;
+  }
+
+  div {
+    padding-top: 146px;
+  }
+  p {
+    margin-left: 30px;
+    color: white;
+    font-size: 22px;
+  }
+
+  h1 {
+    margin-left: 30px;
+    color: white;
+    font-size: 36px;
+  }
+`;
+
 export const Main = styled.main`
   width: 100vw;
   height: 100vh;
