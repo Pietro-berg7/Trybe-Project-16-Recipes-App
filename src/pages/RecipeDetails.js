@@ -6,8 +6,22 @@ import Recommendations from '../components/Recommendations';
 import ButtonFavorite from '../components/ButtonFavorite';
 import ButtonShare from '../components/ButtonShare';
 
+import {
+  Main,
+  Img,
+  Content,
+  ButtonStart,
+  Ingredients,
+  Share,
+  Favorite,
+} from './CSS/RecipeDetails.styled';
+
 export default function RecipeDetails(props) {
-  const { match: { params: { id } } } = props;
+  const {
+    match: {
+      params: { id },
+    },
+  } = props;
   const history = useHistory();
   const { pathname } = history.location;
   const { fetchRecipeId } = useContext(Context);
@@ -49,72 +63,83 @@ export default function RecipeDetails(props) {
   if (!recipe) return null;
 
   return (
-    <main>
-      <img
+    <Main>
+      <Img
         data-testid="recipe-photo"
         src={ recipe.strMealThumb || recipe.strDrinkThumb }
         alt=""
         width="100%"
       />
-      <h1 data-testid="recipe-title">{ recipe.strMeal || recipe.strDrink }</h1>
-      <h3 data-testid="recipe-category">
-        { recipe.strAlcoholic || recipe.strCategory }
-      </h3>
-      <h2>Ingredients</h2>
-      { Object.entries(recipe)
-        .filter((element) => (element[0].includes('Ingredient')))
-        .map((ingredient, index) => (
-          <p
-            data-testid={ `${index}-ingredient-name-and-measure` }
-            key={ index }
-          >
-            {ingredient[1]}
-          </p>
-        ))}
-      <h2>Measures</h2>
-      { Object.entries(recipe)
-        .filter((element) => (element[0].includes('Measure')))
-        .map((measure, index) => (
-          <p
-            data-testid={ `${index}-ingredient-name-and-measure` }
-            key={ index }
-          >
-            {measure[1]}
-          </p>
-        ))}
-      <h2>Instructions</h2>
-      <p data-testid="instructions">{ recipe.strInstructions }</p>
-      {recipe.strYoutube && (
-        <iframe
-          title="video"
-          data-testid="video"
-          width="100%"
-          src={ `https://www.youtube.com/embed/${recipe.strYoutube.split('=')[1]}` }
-          frameBorder="0"
-          allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
-      )}
-      <div>
-        {
-          done
-            ? null
-            : (
-              <button
-                data-testid="start-recipe-btn"
-                type="button"
-                style={ { position: 'fixed', bottom: '0px' } }
-                onClick={ handleStartRecipe }
-              >
-                { startRecipeBtn ? ('Continue Recipe') : ('Start Recipe') }
-              </button>
-            )
-        }
-      </div>
-      <ButtonShare pathname={ pathname } />
-      <ButtonFavorite pathname={ pathname } recipe={ recipe } id={ id } />
-      <Recommendations />
-    </main>
+      <Content>
+        <h1 data-testid="recipe-title">{recipe.strMeal || recipe.strDrink}</h1>
+        <h3 data-testid="recipe-category">
+          {recipe.strAlcoholic || recipe.strCategory}
+        </h3>
+        <h2>Ingredients</h2>
+        <Ingredients>
+          <div>
+            {Object.entries(recipe)
+              .filter((element) => element[0].includes('Ingredient'))
+              .map((ingredient, index) => (
+                (ingredient[1] !== '' && ingredient[1] !== null)
+                && (
+                  <p data-testid={ `${index}-ingredient-name-and-measure` } key={ index }>
+                    {ingredient[1]}
+                  </p>
+                )
+              ))}
+          </div>
+          <div>
+            {/* <h2>Measures</h2> */}
+            {Object.entries(recipe)
+              .filter((element) => element[0].includes('Measure'))
+              .map((measure, index) => (
+                (measure[1] !== '' && measure[1] !== null)
+                && (
+                  <p data-testid={ `${index}-ingredient-name-and-measure` } key={ index }>
+                    {measure[1]}
+                  </p>
+                )
+              ))}
+          </div>
+        </Ingredients>
+        <h2>Instructions</h2>
+        <p data-testid="instructions">{recipe.strInstructions}</p>
+        {recipe.strYoutube && (
+          <iframe
+            title="video"
+            data-testid="video"
+            width="100%"
+            src={ `https://www.youtube.com/embed/${
+              recipe.strYoutube.split('=')[1]
+            }` }
+            frameBorder="0"
+            allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        )}
+        <div>
+          {done ? null : (
+            <ButtonStart
+              data-testid="start-recipe-btn"
+              type="button"
+              style={ { position: 'fixed', bottom: '0px' } }
+              onClick={ handleStartRecipe }
+            >
+              {startRecipeBtn ? <span>Continue Recipe</span> : <span>Start Recipe</span>}
+            </ButtonStart>
+          )}
+        </div>
+        <Share>
+          <ButtonShare pathname={ pathname } />
+        </Share>
+        <Favorite>
+          <ButtonFavorite pathname={ pathname } recipe={ recipe } id={ id } />
+        </Favorite>
+        <h2>Recommendations</h2>
+        <Recommendations />
+      </Content>
+    </Main>
   );
 }
 

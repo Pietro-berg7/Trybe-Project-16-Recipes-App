@@ -13,7 +13,7 @@ export default function ButtonShare(props) {
   };
 
   return (
-    <div>
+    <>
       <button
         type="button"
         onClick={ handleShare }
@@ -21,8 +21,8 @@ export default function ButtonShare(props) {
       >
         <img src={ shareIcon } alt="shareIcon" data-testid={ testid } />
       </button>
-      {shareRecipe && <span>Link copied!</span>}
-    </div>
+      {shareRecipe && <p>Link copied!</p>}
+    </>
   );
 }
 

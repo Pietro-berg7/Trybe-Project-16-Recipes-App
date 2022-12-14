@@ -4,6 +4,8 @@ import '../css/CardRec.css';
 import { array } from 'prop-types';
 import { Context } from '../context/useContext';
 
+import { Container, Card } from './CSS/Recommendations.styled';
+
 export default function Recommendations() {
   const history = useHistory();
   const { fetchRecipeRecommendations } = useContext(Context);
@@ -18,14 +20,14 @@ export default function Recommendations() {
   }, [fetchRecipeRecommendations, pathname]);
 
   return (
-    <div className="containter">
-      <div className="carousel">
-        {data.map((el, index) => (
-          <div
-            data-testid={ `${index}-recommendation-card` }
-            className="item"
-            key={ index }
-          >
+    <Container className="carousel">
+      {data.map((el, index) => (
+        <div
+          data-testid={ `${index}-recommendation-card` }
+          className="item"
+          key={ index }
+        >
+          <Card>
             <p
               data-testid={ `${index}-recommendation-title` }
               key={ index }
@@ -33,16 +35,14 @@ export default function Recommendations() {
               {el.strDrink || el.strMeal}
             </p>
             <img
-              style={ { width: '100px' } }
               src={ el.strDrinkThumb || el.strMealThumb }
               alt="thumb"
             />
-          </div>
+          </Card>
+        </div>
 
-        ))}
-      </div>
-
-    </div>
+      ))}
+    </Container>
   );
 }
 
