@@ -1,5 +1,6 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import { Card } from './CSS/RecipeCard.styled';
 
 export default function RecipeCard(props) {
   const {
@@ -11,7 +12,7 @@ export default function RecipeCard(props) {
   } = props;
 
   return (
-    <button
+    <Card
       className="drink-card"
       type="button"
       data-testid={ `${index}-recipe-card` }
@@ -23,8 +24,10 @@ export default function RecipeCard(props) {
         data-testid={ `${index}-card-img` }
         width="50px"
       />
+
       <h3 data-testid={ `${index}-card-name` }>{recipeTitle}</h3>
-    </button>
+
+    </Card>
   );
 }
 
