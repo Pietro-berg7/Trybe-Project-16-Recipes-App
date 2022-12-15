@@ -51,7 +51,6 @@ export const SearchOptions = styled.div`
 
 export const Button = styled.button`
   margin-top: 5px;
-  margin-bottom: 35px;
   width: 71px;
   height: 23px;  
   color: white;

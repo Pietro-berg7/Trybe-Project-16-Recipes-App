@@ -58,9 +58,6 @@ function Header() {
         </ProfileButton>
       )}
       <SearchBar />
-      <h1 data-testid="page-title">
-        { rota.pageName }
-      </h1>
     </HeaderStyle>
   );
 }

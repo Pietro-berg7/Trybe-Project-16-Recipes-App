@@ -4,8 +4,42 @@ import { Context } from '../context/useContext';
 import RecipeCard from '../components/RecipeCard';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import { Categories, PageTitle } from './CSS/Recipes.styled';
 
 const cardLimit = 12;
+
+const headerRoutes = [
+  {
+    name: 'meals',
+    pageName: 'Meals',
+    profile: true,
+    search: true,
+  },
+  {
+    name: 'drinks',
+    pageName: 'Drinks',
+    profile: true,
+    search: true,
+  },
+  {
+    name: 'profile',
+    pageName: 'Profile',
+    profile: true,
+    search: false,
+  },
+  {
+    name: 'done-recipes',
+    pageName: 'Done Recipes',
+    profile: true,
+    search: false,
+  },
+  {
+    name: 'favorite-recipes',
+    pageName: 'Favorite Recipes',
+    profile: true,
+    search: false,
+  },
+];
 
 function Recipes() {
   const history = useHistory();
@@ -18,6 +52,7 @@ function Recipes() {
     fetchRecipesCat,
   } = useContext(Context);
   const { pathname } = history.location;
+  const rota = headerRoutes.find((route) => route.name === pathname.replace('/', ''));
   const [activeFilter, setActiveFilter] = useState('');
 
   useEffect(() => {
@@ -55,7 +90,8 @@ function Recipes() {
   return (
     <main>
       <Header />
-      <div className="categories-container">
+      <Categories>
+        <h1>Categories:</h1>
         {
           categories.map((cat) => (
             <button
@@ -78,7 +114,10 @@ function Recipes() {
         >
           All
         </button>
-      </div>
+      </Categories>
+      <PageTitle>
+        { rota.pageName }
+      </PageTitle>
       <section className="recipe-cards-container">
         {
           recipes.slice(0, cardLimit).map((rec, index) => (
