@@ -4,6 +4,9 @@ import copy from 'clipboard-copy';
 import Header from '../components/Header';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
+import { Card, Section } from './CSS/DoneRecipes.styled';
+import { Categories } from './CSS/Recipes.styled';
+import { P } from './CSS/FavoriteRecipes.style';
 
 export default function Favorites() {
   const [favorite, setFavorite] = useState([]);
@@ -37,7 +40,7 @@ export default function Favorites() {
   return (
     <main>
       <Header />
-      <div>
+      <Categories>
         <button
           type="button"
           data-testid="filter-by-all-btn"
@@ -59,7 +62,7 @@ export default function Favorites() {
         >
           Drinks
         </button>
-      </div>
+      </Categories>
 
       { favorite.length && (
         <section>
@@ -70,22 +73,24 @@ export default function Favorites() {
                   key={ `${element.id}-${index}` }
                 >
                   <div>
-                    <Link to={ `/${element.type}s/${element.id}` }>
-                      <img
-                        width="50%"
-                        data-testid={ `${index}-horizontal-image` }
-                        src={ element.image }
-                        alt={ `${element.name}` }
-                      />
-                    </Link>
-                    <Link to={ `/${element.type}s/${element.id}` }>
-                      <h3
-                        data-testid={ `${index}-horizontal-name` }
-                      >
-                        {element.name}
-                      </h3>
-                    </Link>
-                    <p
+                    <Card>
+                      <Link to={ `/${element.type}s/${element.id}` }>
+                        <img
+                          width="50%"
+                          data-testid={ `${index}-horizontal-image` }
+                          src={ element.image }
+                          alt={ `${element.name}` }
+                        />
+                      </Link>
+                      <Link to={ `/${element.type}s/${element.id}` }>
+                        <h3
+                          data-testid={ `${index}-horizontal-name` }
+                        >
+                          {element.name}
+                        </h3>
+                      </Link>
+                    </Card>
+                    <P
                       data-testid={ `${index}-horizontal-top-text` }
                     >
                       {
@@ -93,8 +98,8 @@ export default function Favorites() {
                           ? `${element.nationality} - ${element.category}`
                           : element.alcoholicOrNot
                       }
-                    </p>
-                    <div>
+                    </P>
+                    <Section>
                       <button
                         data-testid={ `${index}-horizontal-share-btn` }
                         type="button"
@@ -104,15 +109,16 @@ export default function Favorites() {
                         <img src={ shareIcon } alt="shareIcon" />
                       </button>
                       {shareRecipe === element.id && <span>Link copied!</span>}
-                    </div>
-                    <button
-                      data-testid={ `${index}-horizontal-favorite-btn` }
-                      type="button"
-                      src={ blackHeartIcon }
-                      onClick={ () => handleFavorite(element.id) }
-                    >
-                      <img src={ blackHeartIcon } alt="" />
-                    </button>
+                      <button
+                        data-testid={ `${index}-horizontal-favorite-btn` }
+                        type="button"
+                        src={ blackHeartIcon }
+                        onClick={ () => handleFavorite(element.id) }
+                      >
+                        <img src={ blackHeartIcon } alt="" />
+                      </button>
+                    </Section>
+
                   </div>
                 </div>
               ))

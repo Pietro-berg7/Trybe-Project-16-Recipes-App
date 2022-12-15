@@ -46,9 +46,14 @@ export const Section = styled.section`
     }
 
     button {
-        padding: 8px;
+        padding: 12px;
         border-radius: 6px;
         border: none;
+
+         &:nth-child(2) {
+        margin-left: 5px;
+        padding: 10px;
+    }
     }
 `;
 
