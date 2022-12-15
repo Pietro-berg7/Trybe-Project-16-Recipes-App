@@ -35,9 +35,9 @@ export default function SearchBar() {
         type="search"
         data-testid="search-input"
         name="searchInput"
-        value={formData.searchInput}
-        onChange={handleInput}
-        onClick={() => setAvailable(!available)}
+        value={ formData.searchInput }
+        onChange={ handleInput }
+        onClick={ () => setAvailable(!available) }
         placeholder="Seach"
       />
       {available && (
@@ -50,8 +50,8 @@ export default function SearchBar() {
                 id="ingredient-search-radio"
                 data-testid="ingredient-search-radio"
                 value="ingredient"
-                onChange={handleInput}
-                checked={formData.searchType === 'ingredient'}
+                onChange={ handleInput }
+                checked={ formData.searchType === 'ingredient' }
               />
               Ingredient
             </label>
@@ -62,8 +62,8 @@ export default function SearchBar() {
                 id="name-search-radio"
                 data-testid="name-search-radio"
                 value="recipeName"
-                onChange={handleInput}
-                checked={formData.searchType === 'recipeName'}
+                onChange={ handleInput }
+                checked={ formData.searchType === 'recipeName' }
               />
               Name
             </label>
@@ -74,8 +74,8 @@ export default function SearchBar() {
                 id="first-letter-search-radio"
                 data-testid="first-letter-search-radio"
                 value="firstLetter"
-                onChange={handleInput}
-                checked={formData.searchType === 'firstLetter'}
+                onChange={ handleInput }
+                checked={ formData.searchType === 'firstLetter' }
               />
               First letter
             </label>
@@ -83,7 +83,7 @@ export default function SearchBar() {
           <Button
             type="button"
             data-testid="exec-search-btn"
-            onClick={searchRecipes}
+            onClick={ searchRecipes }
           >
             Search
           </Button>
