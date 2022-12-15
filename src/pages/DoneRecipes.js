@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import ButtonShare from '../components/ButtonShare';
 import Header from '../components/Header';
+import { Categories } from './CSS/Recipes.styled';
+import { Card, Div, Section } from './CSS/DoneRecipes.styled';
 
 export default function DoneRecipes() {
   const history = useHistory();
@@ -31,8 +33,8 @@ export default function DoneRecipes() {
   return (
     <div>
       <Header />
-      <div>Done Recipes</div>
-      <div className="filter-container">
+      <Div>Done Recipes</Div>
+      <Categories>
         <button
           data-testid="filter-by-meal-btn"
           type="button"
@@ -54,7 +56,7 @@ export default function DoneRecipes() {
         >
           All
         </button>
-      </div>
+      </Categories>
       <div className="recipes-container">
         {recipes.filter((recipe) => filter.includes(recipe.type)).map((recipe, i) => {
           const tags = tagsGenerate(recipe.tags, i);
@@ -62,7 +64,7 @@ export default function DoneRecipes() {
           const path = `/${recipe.type}s/${recipe.id}`;
           return (
             <div key={ i } style={ { width: '100px' } }>
-              <button
+              <Card
                 type="button"
                 onClick={ () => history.push(path) }
               >
@@ -73,19 +75,21 @@ export default function DoneRecipes() {
                   data-testid={ `${i}-horizontal-image` }
                 />
                 <p data-testid={ `${i}-horizontal-name` }>{recipe.name}</p>
-              </button>
-              <p data-testid={ `${i}-horizontal-top-text` }>
-                {recipe.type === 'drink' ? recipe.alcoholicOrNot : topText}
-              </p>
-              <p data-testid={ `${i}-horizontal-done-date` }>{recipe.doneDate}</p>
-              {tags}
-              {/* <button
+              </Card>
+              <Section>
+                <p data-testid={ `${i}-horizontal-top-text` }>
+                  {recipe.type === 'drink' ? recipe.alcoholicOrNot : topText}
+                </p>
+                <p data-testid={ `${i}-horizontal-done-date` }>{recipe.doneDate}</p>
+                {tags}
+                {/* <button
                 type="button"
                 data-testid={ `${i}-horizontal-share-btn` }
               >
                 <img src={ shareButton } alt="Share" />
               </button> */}
-              <ButtonShare pathname={ path } testid={ `${i}-horizontal-share-btn` } />
+                <ButtonShare pathname={ path } testid={ `${i}-horizontal-share-btn` } />
+              </Section>
             </div>
           );
         })}

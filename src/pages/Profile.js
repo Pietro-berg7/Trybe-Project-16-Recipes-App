@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import { Main } from './CSS/Profile.styled';
 
 export default function Profile() {
   const [userMail, setUserMail] = useState('');
@@ -25,7 +26,8 @@ export default function Profile() {
   return (
     <div>
       <Header />
-      <main>
+      <Main>
+        <h1>Email:</h1>
         <p data-testid="profile-email">{ userMail }</p>
         <section>
           <button
@@ -50,7 +52,7 @@ export default function Profile() {
             Logout
           </button>
         </section>
-      </main>
+      </Main>
       <Footer />
     </div>
   );

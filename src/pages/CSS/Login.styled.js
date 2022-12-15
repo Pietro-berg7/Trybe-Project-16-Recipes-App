@@ -46,6 +46,7 @@ export const Header = styled.header`
 `;
 
 export const Main = styled.main`
+  overflow: hidden;
   width: 100vw;
   height: 100vh;
   background-color: #282828;
