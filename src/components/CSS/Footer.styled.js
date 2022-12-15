@@ -1,11 +1,21 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const transition = keyframes`
+  from {
+    transform: translateY(30px);
+  }
+  to {
+    transform: translateY(0);
+  }
+`;
 
 export const Section = styled.section`
-background-color: white;
+  background-color: white;
   width: 100vw;
   height: 48px;
   box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.25);
   border-radius: 15px 15px 0px 0px;
+  animation: ${transition} 0.75s ease;
 
   button {
     width: 50vw;

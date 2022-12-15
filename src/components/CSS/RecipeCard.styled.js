@@ -24,6 +24,25 @@ export const Card = styled.button`
     /* margin-left: 5px; */
   }
 
+  .skeleton {
+    animation: skeleton-loading 0.5s linear infinite alternate;
+    background-color: red;
+    margin-left: 13px;
+    width: 115px;
+    height: 115px;
+    border-radius: 15px;
+    transform: translateY(-30px);
+  }
+
+  @keyframes skeleton-loading {
+    0% {
+      background-color: hsl(200, 20%, 70%);
+    }
+    100% {
+      background-color: hsl(200, 20%, 90%);
+    }
+  }
+
   img {
     width: 115px;
     height: 115px;

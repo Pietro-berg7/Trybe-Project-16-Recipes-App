@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import propTypes from 'prop-types';
 import { Card } from './CSS/RecipeCard.styled';
 
@@ -11,6 +11,14 @@ export default function RecipeCard(props) {
     redirectToDetails,
   } = props;
 
+  const [loading, setLoading] = useState(true);
+  const [hiddenChange, setHiddenChange] = useState(true);
+
+  const onComplete = () => {
+    setLoading(false);
+    setHiddenChange(false);
+  };
+
   return (
     <Card
       className="drink-card"
@@ -18,16 +26,20 @@ export default function RecipeCard(props) {
       data-testid={ `${index}-recipe-card` }
       onClick={ () => redirectToDetails(recipeId) }
     >
+      {loading && <div className="skeleton" />}
       <img
         src={ recipeImage }
         alt="recipe thumbnail"
         data-testid={ `${index}-card-img` }
         width="50px"
+        onLoad={ onComplete }
+        hidden={ hiddenChange }
       />
 
       <h3 data-testid={ `${index}-card-name` }>{recipeTitle}</h3>
 
     </Card>
+
   );
 }
 
