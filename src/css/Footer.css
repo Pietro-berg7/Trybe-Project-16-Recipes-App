@@ -1,0 +1,9 @@
+.footer {
+  bottom: 0;
+  position: fixed;
+  width: 100vw;
+}
+/* 
+.footer button {
+  width: 50vw;
+} */
