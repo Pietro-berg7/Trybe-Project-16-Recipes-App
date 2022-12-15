@@ -3,6 +3,17 @@ import propTypes from 'prop-types';
 import ButtonShare from '../components/ButtonShare';
 import ButtonFavorite from '../components/ButtonFavorite';
 
+import {
+  Img,
+  Content,
+  Button,
+  Share,
+  Favorite,
+  Ingredients,
+  ButtonBack,
+  Span,
+} from './CSS/RecipeInProgress.styled';
+
 const adjustIngredients = (obj) => {
   const ingArr = [];
   Object.entries(obj).forEach((entrie) => {
@@ -55,7 +66,7 @@ export default function RecipeInProgress(props) {
       tags: recipe.strTags === null ? [] : recipe.strTags.split(','),
       alcoholicOrNot: recipe.strAlcoholic || '',
       type: recType.split('s')[0],
-      doneDate: date.toISOString(),
+      doneDate: date.toDateString(),
     };
     localStorage.setItem('doneRecipes', JSON.stringify([...prevStorage, dnRec]));
     history.push('/done-recipes');
@@ -123,65 +134,69 @@ export default function RecipeInProgress(props) {
   }, [id, recType]);
 
   return (
-    <div>
-      <h1>Recipe In Progress</h1>
-      <button
-        type="button"
-        onClick={ () => history.push('/meals') }
-      >
-        Back
-      </button>
-      <h2 data-testid="recipe-title">{ recipe.strMeal || recipe.strDrink }</h2>
-      <img
+    <main>
+      <Img
         data-testid="recipe-photo"
         src={ recipe.strMealThumb || recipe.strDrinkThumb }
         alt="Recipe"
         width="100px"
       />
-      <div>
-        <ButtonShare pathname={ pathname } />
-        <ButtonFavorite pathname={ pathname } recipe={ recipe } id={ id } />
-      </div>
-      <h3 data-testid="recipe-category">{ recipe.strCategory }</h3>
-      <h4>{ recipe.strAlcoholic || null}</h4>
-      <p data-testid="instructions">
-        { recipe.strInstructions }
-      </p>
-      <ul>
-        {
-          ingredients.map((ing, index) => (
-            <li key={ ing }>
-              <label
-                htmlFor={ ing }
-                data-testid={ `${index}-ingredient-step` }
-                style={
-                  usedIngredients.includes(index.toString())
-                    ? { textDecoration: 'line-through solid rgb(0, 0, 0)' } : {}
-                }
-              >
-                <input
-                  type="checkbox"
-                  id={ ing }
-                  name={ index }
-                  checked={ usedIngredients.includes(index.toString()) }
-                  onChange={ (e) => saveProgress(e.target.name, e.target.checked) }
-                />
-                {ing}
-              </label>
-            </li>
-          ))
-        }
-      </ul>
-      <button
-        data-testid="finish-recipe-btn"
+      <ButtonBack
         type="button"
-        disabled={ ingredients.length !== usedIngredients.length }
-        onClick={ () => finishRecipe() }
-        style={ { position: 'fixed', bottom: '0px' } }
+        onClick={ () => history.push('/meals') }
       >
-        Finalizar Receita
-      </button>
-    </div>
+        <span>Back</span>
+      </ButtonBack>
+      <Content>
+        <h1>Recipe In Progress</h1>
+        <h2 data-testid="recipe-title">{ recipe.strMeal || recipe.strDrink }</h2>
+        <Share>
+          <ButtonShare pathname={ pathname } />
+        </Share>
+        <Favorite>
+          <ButtonFavorite pathname={ pathname } recipe={ recipe } id={ id } />
+        </Favorite>
+        <h3 data-testid="recipe-category">{ recipe.strCategory }</h3>
+        <h4>{ recipe.strAlcoholic || null}</h4>
+        <p data-testid="instructions">
+          { recipe.strInstructions }
+        </p>
+        <Ingredients>
+          {
+            ingredients.map((ing, index) => (
+              <li key={ ing }>
+                <label
+                  htmlFor={ ing }
+                  data-testid={ `${index}-ingredient-step` }
+                  style={
+                    usedIngredients.includes(index.toString())
+                      ? { textDecoration: 'line-through solid rgb(0, 0, 0)' } : {}
+                  }
+                >
+                  <input
+                    type="checkbox"
+                    id={ ing }
+                    name={ index }
+                    checked={ usedIngredients.includes(index.toString()) }
+                    onChange={ (e) => saveProgress(e.target.name, e.target.checked) }
+                  />
+                  <Span>{ing}</Span>
+                </label>
+              </li>
+            ))
+          }
+        </Ingredients>
+        <Button
+          data-testid="finish-recipe-btn"
+          type="button"
+          disabled={ ingredients.length !== usedIngredients.length }
+          onClick={ () => finishRecipe() }
+          style={ { position: 'fixed', bottom: '0px' } }
+        >
+          <span>Finalizar Receita</span>
+        </Button>
+      </Content>
+    </main>
   );
 }
 

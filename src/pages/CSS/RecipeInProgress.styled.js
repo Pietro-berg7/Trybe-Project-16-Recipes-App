@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+export const Main = styled.main`
+  
+`;
+
 export const Img = styled.img`
   position: absolute;
   width: 100vw;
@@ -47,10 +51,22 @@ export const Content = styled.div`
   > h3 {
     height: 3.75vh;
     margin-left: 5.83vw;
-    margin-top: -0.5vh;
+    margin-top: 1vh;
 
     font-weight: 500;
     font-size: 18px;
+    line-height: 3.28vh;
+
+    color: #404040;
+  }
+
+  > h4 {
+    height: 3.75vh;
+    margin-left: 5.83vw;
+    margin-top: -0.5vh;
+
+    font-weight: 400;
+    font-size: 14px;
     line-height: 3.28vh;
 
     color: #404040;
@@ -68,7 +84,7 @@ export const Content = styled.div`
   }
 `;
 
-export const ButtonStart = styled.button`
+export const Button = styled.button`
   position: absolute;
   width: 28.89vw;
   height: 4.53125vh;
@@ -120,15 +136,14 @@ export const ButtonBack = styled.button`
   }
 `;
 
-export const Ingredients = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-top: 3vh;
+export const Ingredients = styled.ul`
+  padding-bottom: 10vh;
+  margin-left: 5.83vw;
+  list-style: none;
+`;
 
-  p {
-    margin-left: 5.83vw;
-    line-height: 26px;
-  }
+export const Span = styled.span`
+  margin-left: 5px;
 `;
 
 export const Share = styled.div`
@@ -178,7 +193,7 @@ export const Favorite = styled.div`
     background: none;
     margin: 5px;
   }
-  
+
   > button img {
     width: 75%;
     margin: 15%;

@@ -7,13 +7,13 @@ import ButtonFavorite from '../components/ButtonFavorite';
 import ButtonShare from '../components/ButtonShare';
 
 import {
-  Main,
   Img,
   Content,
   ButtonStart,
   Ingredients,
   Share,
   Favorite,
+  ButtonBack,
 } from './CSS/RecipeDetails.styled';
 
 export default function RecipeDetails(props) {
@@ -63,13 +63,19 @@ export default function RecipeDetails(props) {
   if (!recipe) return null;
 
   return (
-    <Main>
+    <main>
       <Img
         data-testid="recipe-photo"
         src={ recipe.strMealThumb || recipe.strDrinkThumb }
         alt=""
         width="100%"
       />
+      <ButtonBack
+        type="button"
+        onClick={ () => history.push('/meals') }
+      >
+        <span>Back</span>
+      </ButtonBack>
       <Content>
         <h1 data-testid="recipe-title">{recipe.strMeal || recipe.strDrink}</h1>
         <h3 data-testid="recipe-category">
@@ -139,7 +145,7 @@ export default function RecipeDetails(props) {
         <h2>Recommendations</h2>
         <Recommendations />
       </Content>
-    </Main>
+    </main>
   );
 }
 
