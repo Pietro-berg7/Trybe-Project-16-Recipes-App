@@ -1,11 +1,16 @@
 import React, { useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Context } from '../context/useContext';
+import { SeachButton, SearchOptions, Button } from './CSS/Header.styled';
 
 export default function SearchBar() {
   const { fetchRecipes } = useContext(Context);
   const { pathname } = useLocation();
-  const [formData, setFormData] = useState({ searchInput: '', searchType: 'ingredient' });
+  const [formData, setFormData] = useState({
+    searchInput: '',
+    searchType: 'ingredient',
+  });
+  const [available, setAvailable] = useState(false);
 
   function handleInput({ target: { name, value } }) {
     setFormData({
@@ -25,56 +30,65 @@ export default function SearchBar() {
 
   return (
     <div>
-      <input
+      <SeachButton
         type="search"
         data-testid="search-input"
         name="searchInput"
         value={ formData.searchInput }
         onChange={ handleInput }
+        onClick={ () => setAvailable(!available) }
+        placeholder="Seach"
       />
-      <label htmlFor="ingredient-search-radio">
-        <input
-          type="radio"
-          name="searchType"
-          id="ingredient-search-radio"
-          data-testid="ingredient-search-radio"
-          value="ingredient"
-          onChange={ handleInput }
-          checked={ formData.searchType === 'ingredient' }
-        />
-        Ingredient
-      </label>
-      <label htmlFor="name-search-radio">
-        <input
-          type="radio"
-          name="searchType"
-          id="name-search-radio"
-          data-testid="name-search-radio"
-          value="recipeName"
-          onChange={ handleInput }
-          checked={ formData.searchType === 'recipeName' }
-        />
-        Name
-      </label>
-      <label htmlFor="first-letter-search-radio">
-        <input
-          type="radio"
-          name="searchType"
-          id="first-letter-search-radio"
-          data-testid="first-letter-search-radio"
-          value="firstLetter"
-          onChange={ handleInput }
-          checked={ formData.searchType === 'firstLetter' }
-        />
-        First letter
-      </label>
-      <button
-        type="button"
-        data-testid="exec-search-btn"
-        onClick={ searchRecipes }
-      >
-        Search
-      </button>
+      {available && (
+        <>
+          <SearchOptions>
+            <label htmlFor="ingredient-search-radio">
+              <input
+                type="radio"
+                name="searchType"
+                id="ingredient-search-radio"
+                data-testid="ingredient-search-radio"
+                value="ingredient"
+                onChange={ handleInput }
+                checked={ formData.searchType === 'ingredient' }
+              />
+              Ingredient
+            </label>
+            <label htmlFor="name-search-radio">
+              <input
+                type="radio"
+                name="searchType"
+                id="name-search-radio"
+                data-testid="name-search-radio"
+                value="recipeName"
+                onChange={ handleInput }
+                checked={ formData.searchType === 'recipeName' }
+              />
+              Name
+            </label>
+            <label htmlFor="first-letter-search-radio">
+              <input
+                type="radio"
+                name="searchType"
+                id="first-letter-search-radio"
+                data-testid="first-letter-search-radio"
+                value="firstLetter"
+                onChange={ handleInput }
+                checked={ formData.searchType === 'firstLetter' }
+              />
+              First letter
+            </label>
+          </SearchOptions>
+          <Button
+            type="button"
+            data-testid="exec-search-btn"
+            onClick={ searchRecipes }
+          >
+            Search
+          </Button>
+        </>
+
+      )}
     </div>
   );
 }
